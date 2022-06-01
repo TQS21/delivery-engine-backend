@@ -1,5 +1,7 @@
 package ua.tqs21.deliveryengine.models;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -25,10 +27,10 @@ public class Order {
 
     @Column(name="creation_ts")
     @CreationTimestamp
-    private long timestamp;
+    private Date timestamp;
 
     @Column(name = "delivery_ts")
-    private long delivery_timestamp;
+    private Date delivery_timestamp;
 
     @ManyToOne
     @JoinColumn(name="rider_id")
@@ -41,7 +43,7 @@ public class Order {
 
     public Order() {}
 
-    public Order(OrderStatus status, long timestamp, long delivery_timestamp, Rider courier, Service shop) {
+    public Order(OrderStatus status, Date timestamp, Date delivery_timestamp, Rider courier, Service shop) {
         this.status = status;
         this.timestamp = timestamp;
         this.delivery_timestamp = delivery_timestamp;
@@ -65,19 +67,19 @@ public class Order {
         this.status = status;
     }
 
-    public long getTimestamp() {
+    public Date getTimestamp() {
         return this.timestamp;
     }
 
-    public void setTimestamp(long ts) {
+    public void setTimestamp(Date ts) {
         this.timestamp = ts;
     }
 
-    public long getDelivery_timestamp() {
+    public Date getDelivery_timestamp() {
         return this.delivery_timestamp;
     }
 
-    public void setDelivery_timestamp(long ts) {
+    public void setDelivery_timestamp(Date ts) {
         this.delivery_timestamp = ts;
     }
 
