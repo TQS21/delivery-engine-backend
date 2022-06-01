@@ -23,7 +23,7 @@ public class User {
     private String email;
 
     @OneToOne
-    @JoinColumn(name = "user_roles", referencedColumnName = "id")
+    @JoinColumn(name = "user_roles", nullable = false)
     private UserRole role;
 
     public User() {}

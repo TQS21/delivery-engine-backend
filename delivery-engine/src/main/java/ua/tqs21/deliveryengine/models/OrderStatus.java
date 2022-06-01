@@ -15,12 +15,12 @@ public class OrderStatus {
     private int id;
 
     @Column(name = "status")
-    private String status;
+    private String name;
 
     public OrderStatus() {}
 
-    public OrderStatus(String status) {
-        this.status = status;
+    public OrderStatus(String name) {
+        this.name = name;
     }
 
     public int getId() {
@@ -32,10 +32,10 @@ public class OrderStatus {
     }
 
     public String getStatus() {
-        return this.status;
+        return this.name;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setStatus(String name) {
+        this.name = name;
     }
 }

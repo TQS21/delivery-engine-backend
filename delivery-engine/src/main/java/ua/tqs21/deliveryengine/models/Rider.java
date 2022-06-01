@@ -1,10 +1,13 @@
 package ua.tqs21.deliveryengine.models;
 
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.MapsId;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -20,10 +23,14 @@ public class Rider {
     @JoinColumn(name = "users", referencedColumnName = "id")
     private User user;
 
+    @OneToMany(mappedBy = "courier")
+    private Set<Order> deliveries;
+
     public Rider() {}
 
-    public Rider(User user) {
+    public Rider(User user, Set<Order> deliveries) {
         this.user = user;
+        this.deliveries = deliveries;
     }
 
     public int getId() {
@@ -40,5 +47,13 @@ public class Rider {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Set<Order> getDeliveries() {
+        return this.deliveries;
+    }
+
+    public void setDeliveries(Set<Order> deliveries) {
+        this.deliveries = deliveries;
     }
 }
