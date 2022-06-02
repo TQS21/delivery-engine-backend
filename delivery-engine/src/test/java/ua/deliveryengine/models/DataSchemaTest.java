@@ -26,12 +26,24 @@ public class DataSchemaTest {
     public void user_tests() {
         UserRole admin_role = new UserRole("Admin");
         UserRole rider_role = new UserRole("Rider");
+        UserRole test = new UserRole();
+
+        test.setRole("teste");
+        test.setId(3);
+
+        assertEquals(test.getRole(), "teste");
+        assertEquals(test.getId(), 3);
 
         User user1 = new User("1", "A", admin_role);
         User user2 = new User("email", "password", rider_role);
         User user3 = new User();
 
         Admin admin = new Admin(user1);
+        admin.setUser(user3);
+        assertEquals(admin.getUser(), user3);
+        admin.getUser().setId(3);
+        assertEquals(admin.getUser().getId(), 3);
+
         Rider rider = new Rider(user2, new HashSet<Order>());
         ServiceOwner so = new ServiceOwner(user3, new HashSet<>());
 
