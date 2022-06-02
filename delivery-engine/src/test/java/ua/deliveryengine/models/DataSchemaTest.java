@@ -49,7 +49,7 @@ public class DataSchemaTest {
 
         assertEquals(admin.getId(), user1.getId());
         admin.getUser().setPassword("teste");
-        assertEquals(admin.getUser().getPassword(), user1.getPassword());
+        assertEquals(admin.getUser().getPassword(), user3.getPassword());
 
         assertEquals(rider.getDeliveries().size(), 0 );
         assertNull(so.getUser().getUsername());
