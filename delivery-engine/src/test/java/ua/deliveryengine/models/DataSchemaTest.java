@@ -38,13 +38,18 @@ public class DataSchemaTest {
         User user2 = new User("email", "password", rider_role);
         User user3 = new User();
 
-        Admin admin = new Admin(user1);
+        Admin admin = new Admin();
         admin.setUser(user3);
         assertEquals(admin.getUser(), user3);
         admin.getUser().setId(3);
         assertEquals(admin.getUser().getId(), 3);
 
         Rider rider = new Rider(user2, new HashSet<Order>());
+        rider.setId(0);
+        assertEquals(rider.getId(), 0);
+
+        rider.setUser(user3);
+        assertEquals(rider.getUser(), user3);
         ServiceOwner so = new ServiceOwner(user3, new HashSet<>());
 
         assertEquals(admin.getId(), user1.getId());
