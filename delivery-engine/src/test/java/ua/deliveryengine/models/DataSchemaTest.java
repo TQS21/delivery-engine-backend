@@ -80,6 +80,13 @@ public class DataSchemaTest {
         assertEquals(serviceOwner.getServices().size(), 2);
         serviceOwner.getServices().add(s2);
         assertEquals(serviceOwner.getServices().contains(s1), true);
+
+        s1.setUser(new ServiceOwner());
+        s1.setName("s3");
+        Address a = new Address();
+        s1.setAddress(a);
+        assertEquals(s1.getName(), "s3");
+        assertEquals(s1.getAddress(), a);
     }
 
     @Test
