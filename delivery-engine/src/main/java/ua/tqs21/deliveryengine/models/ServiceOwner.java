@@ -28,8 +28,9 @@ public class ServiceOwner {
 
     public ServiceOwner() {}
 
-    public ServiceOwner(User user) {
+    public ServiceOwner(User user, Set<Service> services) {
         this.user = user;
+        this.services = services;
     }
 
     public int getId() {
@@ -46,5 +47,13 @@ public class ServiceOwner {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Set<Service> getServices() {
+        return this.services;
+    }
+
+    public void setServices(Set<Service> services) {
+        this.services = services;
     }
 }
