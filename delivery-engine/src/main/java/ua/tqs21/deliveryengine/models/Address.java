@@ -9,7 +9,7 @@ public class Address {
 
     public Address() {}
 
-    public Address(double latitude, double longitude) throws Exception {
+    public Address(double latitude, double longitude) throws IllegalStateException {
         if (latitude < -90.0 || latitude > 90 || longitude < -180.0 || longitude > 180.0) {
             throw new IllegalStateException("Invalid address coordinates");
         }

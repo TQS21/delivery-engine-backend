@@ -20,10 +20,10 @@ import ua.tqs21.deliveryengine.models.ServiceOwner;
 import ua.tqs21.deliveryengine.models.User;
 import ua.tqs21.deliveryengine.models.UserRole;
 
-public class DataSchemaTest {
+class DataSchemaTest {
     
     @Test
-    public void user_tests() {
+    void user_tests() {
         UserRole admin_role = new UserRole("Admin");
         UserRole rider_role = new UserRole("Rider");
         UserRole test = new UserRole();
@@ -31,8 +31,8 @@ public class DataSchemaTest {
         test.setRole("teste");
         test.setId(3);
 
-        assertEquals(test.getRole(), "teste");
-        assertEquals(test.getId(), 3);
+        assertEquals("teste", test.getRole());
+        assertEquals(3, test.getId());
 
         User user1 = new User("1", "A", admin_role);
         User user2 = new User("email", "password", rider_role);
@@ -41,51 +41,52 @@ public class DataSchemaTest {
         Admin admin = new Admin();
         Admin adminwithUser = new Admin(new User());
         adminwithUser.getUser().setId(56);
-        assertEquals(adminwithUser.getUser().getId(), 56);
+        assertEquals(56, adminwithUser.getUser().getId());
         admin.setUser(user3);
-        assertEquals(admin.getUser(), user3);
+        assertEquals(user3, admin.getUser());
         admin.getUser().setId(3);
-        assertEquals(admin.getUser().getId(), 3);
+        assertEquals(3, admin.getUser().getId());
 
         Rider rider = new Rider(user2, new HashSet<Order>());
         rider.setId(0);
-        assertEquals(rider.getId(), 0);
+        assertEquals(0, rider.getId());
 
         rider.setUser(user3);
-        assertEquals(rider.getUser(), user3);
+        assertEquals(user3, rider.getUser());
         ServiceOwner so = new ServiceOwner(user3, new HashSet<>());
 
         assertEquals(admin.getId(), user1.getId());
         admin.getUser().setPassword("teste");
         assertEquals(admin.getUser().getPassword(), user3.getPassword());
 
-        assertEquals(rider.getDeliveries().size(), 0 );
+        assertEquals(0, rider.getDeliveries().size());
         assertNull(so.getUser().getUsername());
         so.getUser().setUsername("velho");
         assertEquals(so.getUser().getUsername(), "velho" );
     }
     
     @Test
-    public void address_tests() throws Exception {
+    void address_tests() throws Exception {
         Address valid = new Address(15, -2);
 
-        assertEquals(valid.getLatitude(), 15);
+        assertEquals(15, valid.getLatitude());
         valid.setLongitude(-5);
-        assertEquals(valid.getLongitude(), -5);
+        assertEquals(-5, valid.getLongitude());
 
-        assertThrows(IllegalStateException.class, () ->  new Address(-1000, 0));
-        assertThrows(IllegalStateException.class, () ->  new Address(1000, 0));
-        assertThrows(IllegalStateException.class, () -> new Address(0, 1000));
-        assertThrows(IllegalStateException.class, () -> new Address(0, -1000));
-
-        assertThrows(IllegalStateException.class, () ->  new Address(0, 0).setLatitude(10000));
-        assertThrows(IllegalStateException.class, () ->  new Address(0, 0).setLatitude(-10000));
-        assertThrows(IllegalStateException.class, () ->  new Address(0, 0).setLongitude(10000));
-        assertThrows(IllegalStateException.class, () ->  new Address(0, 0).setLongitude(-10000));
+        assertThrows(IllegalStateException.class, () ->  { 
+            new Address(-1000, 0);
+            new Address(1000, 0);
+            new Address(0, 1000);
+            new Address(0, -1000);
+            new Address(0, 0).setLatitude(10000);
+            new Address(0, 0).setLatitude(-10000);
+            new Address(0, 0).setLongitude(10000);
+            new Address(0, 0).setLongitude(-10000);
+        });
     }
 
     @Test
-    public void services_tests() {
+    void services_tests() {
         User owner = new User("teste", "omega", new UserRole("teste"));
         Set<Service> services = new HashSet<>();
         ServiceOwner serviceOwner = new ServiceOwner(owner, services);
@@ -97,20 +98,20 @@ public class DataSchemaTest {
 
 
         serviceOwner.setServices(services);
-        assertEquals(serviceOwner.getServices().size(), 2);
+        assertEquals(2, serviceOwner.getServices().size());
         serviceOwner.getServices().add(s2);
-        assertEquals(serviceOwner.getServices().contains(s1), true);
+        assertEquals(true, serviceOwner.getServices().contains(s1));
 
         s1.setUser(new ServiceOwner());
         s1.setName("s3");
         Address a = new Address();
         s1.setAddress(a);
-        assertEquals(s1.getName(), "s3");
-        assertEquals(s1.getAddress(), a);
+        assertEquals("s3", s1.getName());
+        assertEquals(a, s1.getAddress());
     }
 
     @Test
-    public void order_tests() {
+    void order_tests() {
         User r = new User("teste", "teste", new UserRole("rider"));
         Set<Order> orders = new HashSet<>();
         Rider rider = new Rider(r, orders);
@@ -121,23 +122,23 @@ public class DataSchemaTest {
         orders.add(o1); orders.add(o2);
 
         rider.setDeliveries(orders);;
-        assertEquals(rider.getDeliveries().contains(o1), true);
-        assertEquals(rider.getDeliveries().contains(o2), true);
+        assertEquals(true, rider.getDeliveries().contains(o1));
+        assertEquals(true, rider.getDeliveries().contains(o2));
         o1.setCourier(rider);
         assertEquals(o1.getCourier().getId(), r.getId());
         
         OrderStatus status1 = new OrderStatus("a");
 
         o1.setOrderStatus(status1);
-        assertEquals(o1.getOrderStatus(), status1);
+        assertEquals(status1, o1.getOrderStatus());
         Service s1 = new Service();
         o1.setShop(s1);
-        assertEquals(o1.getShop(), s1);
+        assertEquals(s1, o1.getShop());
 
         status1.setId(5);
-        assertEquals(o1.getOrderStatus().getId(), 5);
+        assertEquals(5, o1.getOrderStatus().getId());
         status1.setStatus("teste");
-        assertEquals(status1.getStatus(), "teste");
+        assertEquals("teste", status1.getStatus());
 
     }
 }
