@@ -39,6 +39,9 @@ public class DataSchemaTest {
         User user3 = new User();
 
         Admin admin = new Admin();
+        Admin adminwithUser = new Admin(new User());
+        adminwithUser.getUser().setId(56);
+        assertEquals(adminwithUser.getUser().getId(), 56);
         admin.setUser(user3);
         assertEquals(admin.getUser(), user3);
         admin.getUser().setId(3);
