@@ -19,6 +19,7 @@
     	<maven.compiler.source>1.8</maven.compiler.source>
 		<sonar.organization>tqs21</sonar.organization>
   		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
+		<jacoco.version>0.8.6</jacoco.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -58,6 +59,27 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
+
+		<plugin>
+			<groupId>org.jacoco</groupId>
+			<artifactId>jacoco-maven-plugin</artifactId>
+			<version>${jacoco.version}</version>
+			<executions>
+				<execution>
+					<goals>
+						<goal>prepare-agent</goal>
+					</goals>
+				</execution>
+				<execution>
+					<id>report</id>
+					<!--attach the report goal of the JaCoCo plugin to the maven verify phase-->
+					<phase>verify</phase>
+					<goals>
+						<goal>report</goal>
+					</goals>
+				</execution>
+			</executions>
+		</plugin>
 	</build>
 
 </project>
