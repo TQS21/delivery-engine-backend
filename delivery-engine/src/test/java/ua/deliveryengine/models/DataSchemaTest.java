@@ -1,8 +1,10 @@
 package ua.deliveryengine.models;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -27,16 +29,20 @@ public class DataSchemaTest {
 
         User user1 = new User("1", "A", admin_role);
         User user2 = new User("email", "password", rider_role);
-
+        User user3 = new User();
 
         Admin admin = new Admin(user1);
         Rider rider = new Rider(user2, new HashSet<Order>());
+        ServiceOwner so = new ServiceOwner(user3, new HashSet<>());
 
         assertEquals(admin.getId(), user1.getId());
         admin.getUser().setPassword("teste");
         assertEquals(admin.getUser().getPassword(), user1.getPassword());
 
         assertEquals(rider.getDeliveries().size(), 0 );
+        assertNull(so.getUser().getUsername());
+        so.getUser().setUsername("velho");
+        assertEquals(so.getUser().getUsername(), "velho" );
     }
     
     @Test
@@ -48,10 +54,14 @@ public class DataSchemaTest {
         assertEquals(valid.getLongitude(), -5);
 
         assertThrows(IllegalStateException.class, () ->  new Address(-1000, 0));
+        assertThrows(IllegalStateException.class, () ->  new Address(1000, 0));
         assertThrows(IllegalStateException.class, () -> new Address(0, 1000));
+        assertThrows(IllegalStateException.class, () -> new Address(0, -1000));
 
         assertThrows(IllegalStateException.class, () ->  new Address(0, 0).setLatitude(10000));
+        assertThrows(IllegalStateException.class, () ->  new Address(0, 0).setLatitude(-10000));
         assertThrows(IllegalStateException.class, () ->  new Address(0, 0).setLongitude(10000));
+        assertThrows(IllegalStateException.class, () ->  new Address(0, 0).setLongitude(-10000));
     }
 
     @Test
@@ -78,7 +88,7 @@ public class DataSchemaTest {
         Set<Order> orders = new HashSet<>();
         Rider rider = new Rider(r, orders);
 
-        Order o1 = new Order();
+        Order o1 = new Order(new OrderStatus(), new Date(), new Date(), rider, new Service());
         Order o2 = new Order();
 
         orders.add(o1); orders.add(o2);
@@ -93,6 +103,14 @@ public class DataSchemaTest {
 
         o1.setOrderStatus(status1);
         assertEquals(o1.getOrderStatus(), status1);
+        Service s1 = new Service();
+        o1.setShop(s1);
+        assertEquals(o1.getShop(), s1);
+
+        status1.setId(5);
+        assertEquals(o1.getOrderStatus().getId(), 5);
+        status1.setStatus("teste");
+        assertEquals(status1.getStatus(), "teste");
 
     }
 }
