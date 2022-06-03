@@ -60,9 +60,9 @@ class DataSchemaTest {
         assertEquals(admin.getUser().getPassword(), user3.getPassword());
 
         assertEquals(0, rider.getDeliveries().size());
-        assertNull(so.getUser().getUsername());
-        so.getUser().setUsername("velho");
-        assertEquals(so.getUser().getUsername(), "velho" );
+        assertNull(so.getUser().getEmail());
+        so.getUser().setEmail("velho");
+        assertEquals(so.getUser().getEmail(), "velho" );
     }
     
     @Test
