@@ -44,8 +44,8 @@ jobs:
           fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
       - name: Build and Deploy
         run: |
-          docker-compose down -v
-          docker-compose build
-          docker-compose up -d
+          sudo docker-compose down -v
+          sudo docker-compose build
+          sudo docker-compose up -d
           ```
           
