@@ -37,7 +37,7 @@ jobs:
         run: cd delivery-engine && mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=TQS21_delivery-engine-backend
   deploy:
     name: Build and Deploy
-    runs-on: self-hosted
+    runs-on: tqs-vm
     steps:
       - uses: actions/checkout@v2
         with:
