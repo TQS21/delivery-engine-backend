@@ -20,7 +20,7 @@ public class User {
     private String password;
 
     @Column(name = "email")
-    private String username;
+    private String email;
 
     @OneToOne
     @JoinColumn(name = "user_roles", nullable = false)
@@ -28,8 +28,8 @@ public class User {
 
     public User() {}
 
-    public User(String username, String password, UserRole role) {
-        this.username = username;
+    public User(String email, String password, UserRole role) {
+        this.email = email;
         this.password = password;
         this.role = role;
     }
@@ -50,12 +50,12 @@ public class User {
         this.password = password;
     }
 
-    public String getUsername() {
-        return this.username;
+    public String getEmail() {
+        return this.email;
     }
 
-    public void setUsername(String n) {
-        this.username = n;
+    public void setEmail(String n) {
+        this.email = n;
     }
 
     public UserRole getRole() {
