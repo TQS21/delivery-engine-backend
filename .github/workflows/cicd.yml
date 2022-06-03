@@ -43,12 +43,6 @@ jobs:
         with:
           fetch-depth: 0 
       - name: Build
-        run: |
-          cd delivery-engine && mvn clean package
-          ```
+        run: cd delivery-engine && mvn clean package
       - name: Deploy
-        run: |
-          sudo docker-compose down -v
-          sudo docker-compose build
-          sudo docker-compose up -d
-          ```
+        run: sudo docker-compose down -v && sudo docker-compose build && sudo docker-compose up
