@@ -1,4 +1,4 @@
-name: Continuous Integration & Delivery
+name: Static Code Analysis
 on:
   push:
     branches:
@@ -35,14 +35,4 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: cd delivery-engine && mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=TQS21_delivery-engine-backend
-  deploy:
-    name: Build and Deploy
-    runs-on: self-hosted
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0 
-      - name: Build
-        run: cd delivery-engine && mvn clean package
-      - name: Deploy
-        run: docker-compose down -v && docker-compose build && docker-compose up -d
+
