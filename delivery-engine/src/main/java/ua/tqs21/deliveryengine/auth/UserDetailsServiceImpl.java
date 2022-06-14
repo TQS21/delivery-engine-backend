@@ -29,7 +29,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         User user = this.userRepository.findByEmail(email);
         if (user != null) {
             List<SimpleGrantedAuthority> auths = new ArrayList<>();
-            auths.add(new SimpleGrantedAuthority(user.getRole().getRole()));
+            auths.add(new SimpleGrantedAuthority(user.getRole()));
             return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), auths);
         } else {
             throw new UsernameNotFoundException("User with email " +  email + " not found.");

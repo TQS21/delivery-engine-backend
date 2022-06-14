@@ -35,7 +35,7 @@ public class RiderService {
 
     public Rider saveRiderFromDto(RiderPostDTO riderPostDTO) {
         Rider created = new Rider();
-        created.setUser(new User(riderPostDTO.getEmail(), passwordEncoder.encode(riderPostDTO.getPassword()), userRoleRepository.findByRole(Roles.RIDER.name())));
+        created.setUser(new User(riderPostDTO.getEmail(), passwordEncoder.encode(riderPostDTO.getPassword()), Roles.RIDER.name()));
         created.setDeliveries(new HashSet<>());
         return riderRepository.save(created);
     }

@@ -11,12 +11,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import ua.tqs21.deliveryengine.DeliveryEngineApplication;
-import ua.tqs21.deliveryengine.models.Admin;
+import ua.tqs21.deliveryengine.enums.Roles;
 import ua.tqs21.deliveryengine.models.User;
-import ua.tqs21.deliveryengine.models.UserRole;
-import ua.tqs21.deliveryengine.repositories.AdminRepository;
 import ua.tqs21.deliveryengine.repositories.UserRepository;
-import ua.tqs21.deliveryengine.repositories.UserRoleRepository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.CoreMatchers.is;
@@ -40,18 +37,10 @@ public class UserControllerTest {
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired
-    private UserRoleRepository userRoleRepository;
-
-
-    private UserRole admin = new UserRole("ADMIN");
-    private UserRole rider = new UserRole("RIDER");
-    private User user1 = new User("base1", "psw", admin);
-    private User user2 = new User("base2", "psw", rider);
+    private User user1 = new User("base1", "psw", Roles.ADMIN.name());
+    private User user2 = new User("base2", "psw", Roles.RIDER.name());
     @BeforeEach
     void setUp(){
-        userRoleRepository.saveAndFlush(admin);
-        userRoleRepository.saveAndFlush(rider);
         userRepository.saveAndFlush(user1);
         userRepository.saveAndFlush(user2);
     }
@@ -59,7 +48,6 @@ public class UserControllerTest {
     @AfterEach
     void cleanUp(){
         userRepository.deleteAll();
-        userRoleRepository.deleteAll();
     }
     @Test
     void whenGetUser_thenGetAllUsers() throws Exception {
@@ -100,15 +88,6 @@ public class UserControllerTest {
                 .andDo(print())
                 .andExpect(jsonPath("$", is(user1.getId())));
         assertThat(userRepository.findAll().size()).isEqualTo(1);
-    }
-
-    @Test
-    void whenPostUserRole_roleIsAddedToRepository() throws Exception{
-        UserRole test = new UserRole("TEST");
-        mvc.perform(post("/user/roles")
-                .content(asJsonString(test))
-                .contentType(MediaType.APPLICATION_JSON));
-        assertThat(userRoleRepository.findAll().size()).isEqualTo(3);
     }
 
     @Test

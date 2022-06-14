@@ -14,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
 import ua.tqs21.deliveryengine.DeliveryEngineApplication;
 import ua.tqs21.deliveryengine.dto.RiderPostDTO;
+import ua.tqs21.deliveryengine.enums.Roles;
 import ua.tqs21.deliveryengine.models.Order;
 import ua.tqs21.deliveryengine.models.Rider;
 import ua.tqs21.deliveryengine.models.User;
@@ -58,8 +59,8 @@ public class RiderControllerTest {
     private UserRoleRepository userRoleRepository;
 
     private UserRole rider = new UserRole("RIDER");
-    private User base1 = new User("base1", "psw", rider);
-    private User base2 = new User("base2", "psw", rider);
+    private User base1 = new User("base1", "psw", Roles.RIDER.name());
+    private User base2 = new User("base2", "psw", Roles.RIDER.name());
     private Rider rider1 = new Rider(base1, new HashSet<Order>());
     private Rider rider2 = new Rider(base2, new HashSet<Order>());
 

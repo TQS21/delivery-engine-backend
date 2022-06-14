@@ -12,14 +12,12 @@ import org.springframework.http.MediaType;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
 import ua.tqs21.deliveryengine.DeliveryEngineApplication;
-import ua.tqs21.deliveryengine.dto.RiderPostDTO;
+import ua.tqs21.deliveryengine.enums.Roles;
 import ua.tqs21.deliveryengine.models.*;
-import ua.tqs21.deliveryengine.repositories.RiderRepository;
 import ua.tqs21.deliveryengine.repositories.ServiceOwnerRepository;
 import ua.tqs21.deliveryengine.repositories.ServiceRepository;
 import ua.tqs21.deliveryengine.repositories.UserRoleRepository;
 
-import java.util.Date;
 import java.util.HashSet;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -54,8 +52,8 @@ public class ServiceControllerTest {
 
     private UserRole owner = new UserRole("OWNER");
 
-    private ServiceOwner serviceOwner1 = new ServiceOwner(new User("email", "psw", owner), null);
-    private ServiceOwner serviceOwner2 = new ServiceOwner(new User("email", "psw", owner), null);
+    private ServiceOwner serviceOwner1 = new ServiceOwner(new User("email", "psw", Roles.SERVICE_OWNER.name()), null);
+    private ServiceOwner serviceOwner2 = new ServiceOwner(new User("email", "psw", Roles.SERVICE_OWNER.name()), null);
 
     private Service service1 = new Service("service1", serviceOwner1, new Address(), new HashSet<Order>());
 

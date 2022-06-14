@@ -34,7 +34,7 @@ public class ServiceOwnerService {
     }
 
     public ServiceOwner saveAdminFromUser(UserDTO user) {
-        return new ServiceOwner(new User(user.getEmail(), passwordEncoder.encode(user.getPassword()), userRoleRepository.findByRole(Roles.ADMIN.name())), new HashSet<>());
+        return new ServiceOwner(new User(user.getEmail(), passwordEncoder.encode(user.getPassword()), Roles.SERVICE_OWNER.name()), new HashSet<>());
     }
 
     public List<ServiceOwner> getServiceOwners() {

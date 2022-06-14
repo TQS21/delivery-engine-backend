@@ -3,8 +3,10 @@ package ua.tqs21.deliveryengine.services;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import ua.tqs21.deliveryengine.dto.UserDTO;
 import ua.tqs21.deliveryengine.enums.Roles;
@@ -24,16 +26,12 @@ public class AdminService {
     @Autowired
     private UserRoleRepository userRoleRepository;
 
-    public Admin saveAdmin(Admin admin) {
-        return adminRepository.save(admin);
-    }
-
-    public List<Admin> saveAdmins(List<Admin> admin) {
-        return adminRepository.saveAll(admin);
+    public Admin saveAdmin(User admin) {
+        return adminRepository.save(new Admin(admin));
     }
 
     public Admin saveAdminFromUser(UserDTO user) {
-        return new Admin(new User(user.getEmail(), passwordEncoder.encode(user.getPassword()), userRoleRepository.findByRole(Roles.ADMIN.name())));
+        return adminRepository.save(new Admin(new User(user.getEmail(), passwordEncoder.encode(user.getPassword()), Roles.ADMIN.name())));
     }
 
     public List<Admin> getAdmins() {
@@ -50,10 +48,15 @@ public class AdminService {
         return String.valueOf(id);
     }
 
-    public Admin updateAdmin(Admin admin) {
+    public Admin updateAdmin(User admin) {
         System.out.println(admin);
         Admin existingAdmin = adminRepository.findById((int)admin.getId()).orElse(null);
-        existingAdmin.setUser(admin.getUser());
+        
+        if (existingAdmin == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+
+        existingAdmin.setUser(admin);
         return adminRepository.save(existingAdmin);
     }
 }

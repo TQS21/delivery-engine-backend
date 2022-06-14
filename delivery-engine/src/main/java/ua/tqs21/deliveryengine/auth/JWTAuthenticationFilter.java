@@ -43,7 +43,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         try {
             User creds = new ObjectMapper().readValue(req.getInputStream(), User.class);
             List<SimpleGrantedAuthority> auths = new ArrayList<>();
-            auths.add(new SimpleGrantedAuthority(userRepository.findByEmail(creds.getEmail()).getRole().getRole()));
+            auths.add(new SimpleGrantedAuthority(userRepository.findByEmail(creds.getEmail()).getRole()));
             return authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(creds.getEmail(), creds.getPassword(), auths)
             );
@@ -57,7 +57,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         String email = ((UserDetails) auth.getPrincipal()).getUsername();
         User u = userRepository.findByEmail(email);
         String token = JWT.create()
-                        .withClaim(AuthConsts.JWT_ROLE_CLAIM, u.getRole().getRole())
+                        .withClaim(AuthConsts.JWT_ROLE_CLAIM, u.getRole())
                         .withSubject(email)
                         .withExpiresAt(new Date(System.currentTimeMillis() + AuthConsts.EXPIRATION))
                         .sign(Algorithm.HMAC512(AuthConsts.SECRET.getBytes()));
@@ -66,7 +66,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         Map<String, Object> userDTO = new HashMap<>();
 
         userDTO.put("id", u.getId());
-        userDTO.put("authority", u.getRole().getRole());
+        userDTO.put("authority", u.getRole());
         userDTO.put("email", u.getEmail());
 
         body.put("user", userDTO);

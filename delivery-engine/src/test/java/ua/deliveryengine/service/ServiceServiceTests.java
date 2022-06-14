@@ -7,10 +7,14 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.web.server.ResponseStatusException;
 import ua.tqs21.deliveryengine.dto.AddressPostDTO;
 import ua.tqs21.deliveryengine.dto.ServicePostDTO;
+import ua.tqs21.deliveryengine.enums.Roles;
 import ua.tqs21.deliveryengine.models.*;
 import ua.tqs21.deliveryengine.repositories.ServiceOwnerRepository;
 import ua.tqs21.deliveryengine.repositories.ServiceRepository;
@@ -34,11 +38,17 @@ public class ServiceServiceTests {
     @Mock(lenient = true)
     private UserRepository userRepository;
 
+    @Mock(lenient = true)
+    private Authentication auth;
+
+    @Mock(lenient = true)
+    private SecurityContext securityContext;
+
     @InjectMocks
     private ServiceService serviceService;
 
 
-    private ServiceOwner user = new ServiceOwner(new User("testing", "psw", new UserRole("SO")), null);
+    private ServiceOwner user = new ServiceOwner(new User("testing", "psw", "SO"), null);
     private Address address = new Address();
     private Set<Order> deliveries = new HashSet<Order>();
     private Service service = new Service("test", user, address, deliveries);
@@ -56,6 +66,13 @@ public class ServiceServiceTests {
 
         Mockito.when(userRepository.findByEmail(user.getUser().getEmail())).thenReturn(user.getUser());
         Mockito.when(userRepository.findByEmail("not valid")).thenReturn(null);
+
+        User so = new User("teste", "teste", Roles.SERVICE_OWNER.name());
+        Mockito.when(userRepository.findByEmail("teste")).thenReturn(so);
+        Mockito.when(serviceOwnerRepository.findById(so.getId())).thenReturn(Optional.of(new ServiceOwner(so, new HashSet<>())));
+        Mockito.when(securityContext.getAuthentication()).thenReturn(auth);
+        Mockito.when(auth.getPrincipal()).thenReturn("teste");
+        SecurityContextHolder.setContext(securityContext);
 
     }
 
@@ -82,6 +99,7 @@ public class ServiceServiceTests {
     }
 
     @Test
+    @WithMockUser
     void whenCreateServiceFromDTOService_returnsServiceObject(){
         AddressPostDTO addressDTO = new AddressPostDTO();
         ServicePostDTO servicePostDTO = new ServicePostDTO("update", addressDTO);
