@@ -67,12 +67,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.cors().configurationSource(corsConfigurationSource()).and()
+        http.cors().configurationSource(corsConfigurationSource()).and().csrf().disable()
                 .authorizeRequests()
 
                 //PUBLIC
                 .antMatchers(HttpMethod.POST, AuthConsts.LOG_IN_URL).permitAll()
-                .antMatchers(AuthConsts.PUBLIC_ENDPOINTS).permitAll()
+                .antMatchers(HttpMethod.GET, "/**").permitAll()
+                .antMatchers(HttpMethod.POST, "/**").permitAll()
+                .antMatchers(HttpMethod.DELETE, "/**").permitAll()
+                .antMatchers(HttpMethod.PUT, "/**").permitAll()
 
                 .anyRequest().authenticated()
                 .and()

@@ -15,10 +15,4 @@ public class AuthConsts {
 
     // ENDPOINT MANAGEMENT
     public static final String LOG_IN_URL = "/auth/login";
-
-    public static final String[] PUBLIC_ENDPOINTS = {
-        "/user/**",
-        "/courier/**",
-        "/shop/**"
-    };
 }
