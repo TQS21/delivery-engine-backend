@@ -90,14 +90,6 @@ public class UserControllerTest {
         assertThat(userRepository.findAll().size()).isEqualTo(1);
     }
 
-    @Test
-    void whenFindUserRoles_findRoles() throws Exception{
-        mvc.perform(get("/user/roles"))
-                .andDo(print())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$", hasSize(greaterThanOrEqualTo(2))));
-    }
-
     public static String asJsonString(final Object obj) {
         try {
             final ObjectMapper mapper = new ObjectMapper();
