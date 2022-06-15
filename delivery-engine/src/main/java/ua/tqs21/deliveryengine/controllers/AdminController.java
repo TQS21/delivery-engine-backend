@@ -39,7 +39,7 @@ public class AdminController {
     }
 
     @PutMapping("/")
-    public Admin updateAdmin(@RequestBody User admin) {
+    public Admin updateAdmin(@RequestBody UserDTO admin) {
         return adminService.updateAdmin(admin);
     }
 
