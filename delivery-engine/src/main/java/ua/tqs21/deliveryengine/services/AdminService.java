@@ -58,7 +58,12 @@ public class AdminService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
 
-        Admin adm = adminRepository.findById(existingAdmin.getId()).get();
+        Admin adm = adminRepository.findById(existingAdmin.getId()).orElse(null);
+
+        if (adm == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+
         existingAdmin.setEmail(admin.getEmail());
         existingAdmin.setPassword(admin.getPassword());
         adm.setUser(existingAdmin);
