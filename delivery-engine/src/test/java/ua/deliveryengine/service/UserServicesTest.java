@@ -16,7 +16,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.server.ResponseStatusException;
 
-import ua.tqs21.deliveryengine.dto.RiderPostDTO;
+import ua.tqs21.deliveryengine.enums.Roles;
 import ua.tqs21.deliveryengine.models.Admin;
 import ua.tqs21.deliveryengine.models.Rider;
 import ua.tqs21.deliveryengine.models.ServiceOwner;
@@ -34,7 +34,6 @@ import ua.tqs21.deliveryengine.services.UserService;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.any;
 
 @ExtendWith(MockitoExtension.class)
 public class UserServicesTest {
@@ -73,10 +72,10 @@ public class UserServicesTest {
     @BeforeEach
     void setup() {
         User base = new User("base", "psw", null);
-        Rider rider1 = new Rider(new User("vasco", "vasco", new UserRole("RIDER")), null);
-        Rider rider2 = new Rider(new User("email", "psw", new UserRole("RIDER")), null);
+        Rider rider1 = new Rider(new User("vasco", "vasco", Roles.RIDER.name()), null);
+        Rider rider2 = new Rider(new User("email", "psw", Roles.RIDER.name()), null);
         Admin a1 = new Admin(base);
-        ServiceOwner so1 = new ServiceOwner(new User("testing", "psw", new UserRole("SO")), null);
+        ServiceOwner so1 = new ServiceOwner(new User("testing", "psw", Roles.SERVICE_OWNER.name()), null);
 
         List<Rider> riders = new ArrayList<>();
         riders.add(rider1); riders.add(rider2);
@@ -135,12 +134,12 @@ public class UserServicesTest {
         List<Admin> admins = this.adminService.getAdmins();
         List<ServiceOwner> sos = this.serviceOwnerService.getServiceOwners();
 
-        assertThat(riders).hasSize(2).extracting((r) -> r.getUser().getRole().getRole()).containsOnly("RIDER");
-        assertThat(admins).hasSize(1).extracting((a) -> a.getClass().toString()).containsOnly(Admin.class.toString());
-        assertThat(sos).hasSize(1).extracting((s) -> s.getClass().toString()).containsOnly(ServiceOwner.class.toString());
+        assertThat(riders).hasSize(2).extracting((r) -> r.getUser().getRole()).containsOnly("RIDER");
+        assertThat(sos).hasSize(1).extracting((s) -> s.getUser().getRole()).containsOnly("SERVICE_OWNER");
     }
 
     /*
+    TODO: Fix this test
     @Test
     void whenCreatingFromDTO_returnRiderObject() {
         RiderPostDTO riderPostDTO = new RiderPostDTO("vasco", "http://teste.com/a.jpg", new Date(), "teste");

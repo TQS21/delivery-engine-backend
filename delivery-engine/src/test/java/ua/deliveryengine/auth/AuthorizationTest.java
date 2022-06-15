@@ -12,6 +12,6 @@ public class AuthorizationTest {
     
     @Test
     void whenCorrectCredentials_ThenOK() {
-
+        
     }
 }

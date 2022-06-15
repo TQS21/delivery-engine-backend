@@ -10,6 +10,7 @@ import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 
+import ua.tqs21.deliveryengine.enums.Roles;
 import ua.tqs21.deliveryengine.models.Address;
 import ua.tqs21.deliveryengine.models.Admin;
 import ua.tqs21.deliveryengine.models.Order;
@@ -24,8 +25,6 @@ class DataSchemaTest {
     
     @Test
     void user_tests() {
-        UserRole admin_role = new UserRole("Admin");
-        UserRole rider_role = new UserRole("Rider");
         UserRole test = new UserRole();
 
         test.setRole("teste");
@@ -34,8 +33,8 @@ class DataSchemaTest {
         assertEquals("teste", test.getRole());
         assertEquals(3, test.getId());
 
-        User user1 = new User("1", "A", admin_role);
-        User user2 = new User("email", "password", rider_role);
+        User user1 = new User("1", "A", Roles.ADMIN.name());
+        User user2 = new User("email", "password", Roles.RIDER.name());
         User user3 = new User();
 
         Admin admin = new Admin();
@@ -87,7 +86,7 @@ class DataSchemaTest {
 
     @Test
     void services_tests() {
-        User owner = new User("teste", "omega", new UserRole("teste"));
+        User owner = new User("teste", "omega", "teste");
         Set<Service> services = new HashSet<>();
         ServiceOwner serviceOwner = new ServiceOwner(owner, services);
 
@@ -112,7 +111,7 @@ class DataSchemaTest {
 
     @Test
     void order_tests() {
-        User r = new User("teste", "teste", new UserRole("rider"));
+        User r = new User("teste", "teste", "rider");
         Set<Order> orders = new HashSet<>();
         Rider rider = new Rider(r, orders);
 

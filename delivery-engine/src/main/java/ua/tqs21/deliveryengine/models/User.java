@@ -5,8 +5,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -22,13 +20,12 @@ public class User {
     @Column(name = "email")
     private String email;
 
-    @OneToOne
-    @JoinColumn(name = "user_roles", nullable = false)
-    private UserRole role;
+    @Column(name = "role")
+    private String role;
 
     public User() {}
 
-    public User(String email, String password, UserRole role) {
+    public User(String email, String password, String role) {
         this.email = email;
         this.password = password;
         this.role = role;
@@ -58,11 +55,11 @@ public class User {
         this.email = n;
     }
 
-    public UserRole getRole() {
+    public String getRole() {
         return this.role;
     }
 
-    public void setRole(UserRole role) {
+    public void setRole(String role) {
         this.role = role;
     }
 }

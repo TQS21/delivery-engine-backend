@@ -12,7 +12,6 @@ import ua.tqs21.deliveryengine.enums.Roles;
 import ua.tqs21.deliveryengine.models.ServiceOwner;
 import ua.tqs21.deliveryengine.models.User;
 import ua.tqs21.deliveryengine.repositories.ServiceOwnerRepository;
-import ua.tqs21.deliveryengine.repositories.UserRoleRepository;
 
 @Service
 public class ServiceOwnerService {
@@ -21,9 +20,6 @@ public class ServiceOwnerService {
 
     @Autowired
     private ServiceOwnerRepository soRepository;
-
-    @Autowired
-    private UserRoleRepository userRoleRepository;
 
     public ServiceOwner saveServiceOwner(ServiceOwner so) {
         return soRepository.save(so);
@@ -34,7 +30,7 @@ public class ServiceOwnerService {
     }
 
     public ServiceOwner saveAdminFromUser(UserDTO user) {
-        return new ServiceOwner(new User(user.getEmail(), passwordEncoder.encode(user.getPassword()), userRoleRepository.findByRole(Roles.ADMIN.name())), new HashSet<>());
+        return new ServiceOwner(new User(user.getEmail(), passwordEncoder.encode(user.getPassword()), Roles.SERVICE_OWNER.name()), new HashSet<>());
     }
 
     public List<ServiceOwner> getServiceOwners() {
