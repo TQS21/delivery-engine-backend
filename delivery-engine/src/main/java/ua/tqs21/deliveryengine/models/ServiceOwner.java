@@ -11,6 +11,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "service_owners")
 public class ServiceOwner {
@@ -24,6 +26,7 @@ public class ServiceOwner {
     private User user;
 
     @OneToMany(mappedBy = "user")
+    @JsonIgnore
     private Set<Service> services;
 
     public ServiceOwner() {}
