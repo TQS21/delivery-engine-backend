@@ -4,7 +4,7 @@ public class AuthConsts {
 
     // JWT PARAMS
     public static final String SECRET = "TESTE";
-    public static final long EXPIRATION = 900_000 * 60;
+    public static final long EXPIRATION = 900_000L * 60L;
     public static final String TOKEN_PREFIX = "Bearer ";
     public static final String HEADER_KEY = "Authorization";
     public static final String JWT_ROLE_CLAIM = "ROLE";

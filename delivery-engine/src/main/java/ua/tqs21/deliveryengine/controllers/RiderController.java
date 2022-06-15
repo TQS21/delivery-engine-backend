@@ -39,7 +39,7 @@ public class RiderController {
     }
 
     @PutMapping("/")
-    public Rider updateRider(@RequestBody Rider rider) {
+    public Rider updateRider(@RequestBody RiderPostDTO rider) {
         return riderService.updateRider(rider);
     }
 

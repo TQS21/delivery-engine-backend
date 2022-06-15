@@ -4,8 +4,10 @@ import java.util.HashSet;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import ua.tqs21.deliveryengine.dto.UserDTO;
 import ua.tqs21.deliveryengine.enums.Roles;
@@ -50,6 +52,11 @@ public class ServiceOwnerService {
     public ServiceOwner updateServiceOwner(ServiceOwner so) {
         System.out.println(so);
         ServiceOwner existingServiceOwner = soRepository.findById((int)so.getId()).orElse(null);
+
+        if (existingServiceOwner == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+
         existingServiceOwner.setUser(so.getUser());
         existingServiceOwner.setServices(so.getServices());
         return soRepository.save(existingServiceOwner);

@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import ua.tqs21.deliveryengine.dto.UserDTO;
 import ua.tqs21.deliveryengine.models.User;
 import ua.tqs21.deliveryengine.repositories.UserRepository;
 
@@ -53,12 +54,16 @@ public class UserService {
         return String.valueOf(id);
     }
 
-    public User updateUser(User user) {
+    public User updateUser(UserDTO user) {
         System.out.println(user);
-        User existingUser = userRepository.findById((int)user.getId()).orElse(null);
+        User existingUser = userRepository.findByEmail(user.getEmail());
+
+        if (existingUser == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+
         existingUser.setEmail(user.getEmail());
         existingUser.setPassword(user.getPassword());
-        existingUser.setRole(user.getRole());
         return userRepository.save(existingUser);
     }
 }

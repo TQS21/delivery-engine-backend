@@ -21,12 +21,10 @@ import ua.tqs21.deliveryengine.models.Admin;
 import ua.tqs21.deliveryengine.models.Rider;
 import ua.tqs21.deliveryengine.models.ServiceOwner;
 import ua.tqs21.deliveryengine.models.User;
-import ua.tqs21.deliveryengine.models.UserRole;
 import ua.tqs21.deliveryengine.repositories.AdminRepository;
 import ua.tqs21.deliveryengine.repositories.RiderRepository;
 import ua.tqs21.deliveryengine.repositories.ServiceOwnerRepository;
 import ua.tqs21.deliveryengine.repositories.UserRepository;
-import ua.tqs21.deliveryengine.repositories.UserRoleRepository;
 import ua.tqs21.deliveryengine.services.AdminService;
 import ua.tqs21.deliveryengine.services.RiderService;
 import ua.tqs21.deliveryengine.services.ServiceOwnerService;
@@ -52,8 +50,6 @@ public class UserServicesTest {
     @Mock(lenient = true)
     private ServiceOwnerRepository serviceOwnerRepository;
 
-    @Mock(lenient = true)
-    private UserRoleRepository userRoleRepository;
 
     @InjectMocks
     private UserService userService;
@@ -96,9 +92,7 @@ public class UserServicesTest {
         Mockito.when(adminRepository.findAll()).thenReturn(admins);
         Mockito.when(serviceOwnerRepository.findAll()).thenReturn(serviceOwners);
         Mockito.when(riderRepository.findAll()).thenReturn(riders);
-        Mockito.when(userRoleRepository.findByRole("RIDER")).thenReturn(new UserRole("RIDER"));
         Mockito.when(passwordEncoder.encode("teste")).thenReturn("hash");
-        //Mockito.when(riderRepository.save().thenReturn();
     }
 
     @Test

@@ -19,19 +19,11 @@ import ua.tqs21.deliveryengine.models.Rider;
 import ua.tqs21.deliveryengine.models.Service;
 import ua.tqs21.deliveryengine.models.ServiceOwner;
 import ua.tqs21.deliveryengine.models.User;
-import ua.tqs21.deliveryengine.models.UserRole;
 
 class DataSchemaTest {
     
     @Test
     void user_tests() {
-        UserRole test = new UserRole();
-
-        test.setRole("teste");
-        test.setId(3);
-
-        assertEquals("teste", test.getRole());
-        assertEquals(3, test.getId());
 
         User user1 = new User("1", "A", Roles.ADMIN.name());
         User user2 = new User("email", "password", Roles.RIDER.name());

@@ -4,14 +4,17 @@ import java.util.HashSet;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import ua.tqs21.deliveryengine.dto.RiderPostDTO;
 import ua.tqs21.deliveryengine.enums.Roles;
 import ua.tqs21.deliveryengine.models.Rider;
 import ua.tqs21.deliveryengine.models.User;
 import ua.tqs21.deliveryengine.repositories.RiderRepository;
+import ua.tqs21.deliveryengine.repositories.UserRepository;
 
 @Service
 public class RiderService {
@@ -20,6 +23,9 @@ public class RiderService {
 
     @Autowired
     private RiderRepository riderRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     public Rider saveRider(Rider rider) {
         return riderRepository.save(rider);
@@ -50,10 +56,23 @@ public class RiderService {
         return String.valueOf(id);
     }
 
-    public Rider updateRider(Rider rider) {
-        Rider existingRider = riderRepository.findById((int)rider.getId()).orElse(null);
-        existingRider.setUser(rider.getUser());
-        existingRider.setDeliveries(rider.getDeliveries());
+    public Rider updateRider(RiderPostDTO rider) {
+        User u = userRepository.findByEmail(rider.getEmail());
+
+        if (u == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+
+        Rider existingRider = riderRepository.findById(u.getId()).orElse(null);
+
+        if (existingRider == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+
+        User updated = new User();
+        updated.setEmail(u.getEmail());
+        updated.setPassword(u.getPassword());
+        existingRider.setUser(updated);
         return riderRepository.save(existingRider);
     }
 }
