@@ -17,10 +17,8 @@ import ua.tqs21.deliveryengine.dto.UserDTO;
 import ua.tqs21.deliveryengine.enums.Roles;
 import ua.tqs21.deliveryengine.models.Admin;
 import ua.tqs21.deliveryengine.models.User;
-import ua.tqs21.deliveryengine.models.UserRole;
 import ua.tqs21.deliveryengine.repositories.AdminRepository;
 
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasSize;
@@ -41,7 +39,6 @@ public class AdminControllerTest {
     @Autowired
     private AdminRepository adminRepository;
 
-    private UserRole admin = new UserRole("ADMIN");
     private Admin admin1 = new Admin(new User("base1", "psw", Roles.ADMIN.name()));
     private Admin admin2 = new Admin(new User("base2", "psw", Roles.ADMIN.name()));
 

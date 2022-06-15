@@ -13,7 +13,6 @@ import ua.tqs21.deliveryengine.enums.Roles;
 import ua.tqs21.deliveryengine.models.Admin;
 import ua.tqs21.deliveryengine.models.User;
 import ua.tqs21.deliveryengine.repositories.AdminRepository;
-import ua.tqs21.deliveryengine.repositories.UserRoleRepository;
 
 @Service
 public class AdminService {
@@ -23,8 +22,6 @@ public class AdminService {
     @Autowired
     private AdminRepository adminRepository;
 
-    @Autowired
-    private UserRoleRepository userRoleRepository;
 
     public Admin saveAdmin(User admin) {
         return adminRepository.save(new Admin(admin));

@@ -12,7 +12,6 @@ import ua.tqs21.deliveryengine.enums.Roles;
 import ua.tqs21.deliveryengine.models.Rider;
 import ua.tqs21.deliveryengine.models.User;
 import ua.tqs21.deliveryengine.repositories.RiderRepository;
-import ua.tqs21.deliveryengine.repositories.UserRoleRepository;
 
 @Service
 public class RiderService {
@@ -21,9 +20,6 @@ public class RiderService {
 
     @Autowired
     private RiderRepository riderRepository;
-
-    @Autowired
-    private UserRoleRepository userRoleRepository;
 
     public Rider saveRider(Rider rider) {
         return riderRepository.save(rider);

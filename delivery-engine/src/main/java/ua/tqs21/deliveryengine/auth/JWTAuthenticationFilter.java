@@ -44,6 +44,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
             User creds = new ObjectMapper().readValue(req.getInputStream(), User.class);
             List<SimpleGrantedAuthority> auths = new ArrayList<>();
             auths.add(new SimpleGrantedAuthority(userRepository.findByEmail(creds.getEmail()).getRole()));
+
             return authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(creds.getEmail(), creds.getPassword(), auths)
             );
