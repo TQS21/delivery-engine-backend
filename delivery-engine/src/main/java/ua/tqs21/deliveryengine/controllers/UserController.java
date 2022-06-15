@@ -3,7 +3,6 @@ package ua.tqs21.deliveryengine.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,7 +15,6 @@ import ua.tqs21.deliveryengine.dto.UserDTO;
 import ua.tqs21.deliveryengine.models.User;
 import ua.tqs21.deliveryengine.services.UserService;
 
-@CrossOrigin
 @RestController
 @RequestMapping("/user")
 public class UserController {
