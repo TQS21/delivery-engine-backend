@@ -49,14 +49,14 @@ public class OrderServiceTest {
     @InjectMocks
     private OrderService orderService;
 
-    private OrderPostDTO postDTO1 = new OrderPostDTO(1, new ClientPostDTO("teste", "teste"), new AddressPostDTO("Portugal", "340", "x"));
+    private OrderPostDTO postDTO1 = new OrderPostDTO(1, 34, new ClientPostDTO("teste", "teste"), new AddressPostDTO("Portugal", "340", "x"));
 
     @BeforeEach
     void setup() {
         Service dummy = new Service();
         dummy.setId(1);
         Mockito.when(serviceService.getById(anyInt())).thenReturn(dummy);
-        Mockito.when(this.orderStatusRepository.findByStatus(anyString())).thenReturn(new OrderStatus("QUEUED"));
+        Mockito.when(this.orderStatusRepository.findByName(anyString())).thenReturn(new OrderStatus("QUEUED"));
         //Mockito.when(AddressResolver.estimateDeliverTs(any(Address.class), any(Address.class))).thenReturn(new Date());
     }
 
@@ -65,5 +65,7 @@ public class OrderServiceTest {
         Order test = this.orderService.createOrderFromDTO(postDTO1);
 
         assertEquals(postDTO1.getShopId(), test.getShop().getId());
+        assertEquals(postDTO1.getShopOrderRef(), test.getShopOrderRef());
+        assertEquals(postDTO1.getClient().getPhoneNumber(), test.getContact().getPhoneNumber());
     }
 }

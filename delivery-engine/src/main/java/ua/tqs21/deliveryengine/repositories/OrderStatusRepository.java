@@ -7,5 +7,5 @@ import ua.tqs21.deliveryengine.models.OrderStatus;
 
 @Repository
 public interface OrderStatusRepository extends JpaRepository<OrderStatus, Integer> {
-    public OrderStatus findByStatus(String status);
+    public OrderStatus findByName(String status);
 }

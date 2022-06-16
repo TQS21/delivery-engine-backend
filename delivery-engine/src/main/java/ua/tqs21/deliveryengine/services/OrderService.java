@@ -31,15 +31,17 @@ public class OrderService {
         ua.tqs21.deliveryengine.models.Service orderOrigin = servicesService.getById(created.getId());
 
         if (orderOrigin == null) {
+            System.out.println("orderOrigin not found");
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
-
         created.setCourier(null);
         created.setShop(orderOrigin);
         created.setTimestamp(new Date());
         created.setDelivery_timestamp(AddressResolver.estimateDeliverTs(AddressResolver.resolveAddress(orderPostDTO.getAddress()), orderOrigin.getAddress()));
+        created.setShopOrderRef(orderPostDTO.getShopOrderRef());
+        created.setContact(orderPostDTO.getClient());
 
-        OrderStatus status = orderStatusRepository.findByStatus(OrdStatus.QUEUED.name());
+        OrderStatus status = orderStatusRepository.findByName(OrdStatus.QUEUED.name());
 
         if (status == null) {
             status = orderStatusRepository.save(new OrderStatus(OrdStatus.QUEUED.name()));

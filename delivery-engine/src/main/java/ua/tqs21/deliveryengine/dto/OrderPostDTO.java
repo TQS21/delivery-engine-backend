@@ -4,13 +4,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class OrderPostDTO {
     private int shopId;
+    private int shopOrderRef;
     private ClientPostDTO client;
     private AddressPostDTO address;
 
     public OrderPostDTO() {}
 
-    public OrderPostDTO(int id, ClientPostDTO cpd, AddressPostDTO apd) {
+    public OrderPostDTO(int id, int shopOrderRef, ClientPostDTO cpd, AddressPostDTO apd) {
         this.shopId = id;
+        this.shopOrderRef = shopOrderRef;
         this.client = cpd;
         this.address = apd;
     }
@@ -22,6 +24,15 @@ public class OrderPostDTO {
 
     public void setShopId(int id) {
         this.shopId = id;
+    }
+
+    @JsonProperty("shop_order_ref")
+    public int getShopOrderRef() {
+        return this.shopOrderRef;
+    }
+
+    public void setShopOrderRef(int id) {
+        this.shopOrderRef = id;
     }
 
     public ClientPostDTO getClient() {
