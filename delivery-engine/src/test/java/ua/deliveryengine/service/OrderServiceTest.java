@@ -34,7 +34,7 @@ import ua.tqs21.deliveryengine.utils.AddressResolver;
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 public class OrderServiceTest {
 
-    @Autowired
+    @Mock
     private OrderRepository orderRepository;
 
     @Mock
@@ -57,6 +57,9 @@ public class OrderServiceTest {
         dummy.setId(1);
         Mockito.when(serviceService.getById(anyInt())).thenReturn(dummy);
         Mockito.when(this.orderStatusRepository.findByName(anyString())).thenReturn(new OrderStatus("QUEUED"));
+        Service origin = new Service("a", null, null, null);
+        origin.setId(1);
+        Mockito.when(this.orderRepository.save(any(Order.class))).thenReturn(new Order(null, null, null, null, origin, 34, new ClientPostDTO("teste", "teste")));
         //Mockito.when(AddressResolver.estimateDeliverTs(any(Address.class), any(Address.class))).thenReturn(new Date());
     }
 

@@ -46,7 +46,7 @@ public class ServiceService {
                 created.setName(servicePostDTO.getName());
                 created.setDeliveries(new HashSet<>());
                 created.setAddress(AddressResolver.resolveAddress(servicePostDTO.getAddress()));
-                return created;
+                return serviceRepository.save(created);
             }
         }
 

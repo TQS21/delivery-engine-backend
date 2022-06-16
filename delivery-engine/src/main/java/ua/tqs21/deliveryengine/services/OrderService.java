@@ -28,7 +28,7 @@ public class OrderService {
 
     public Order createOrderFromDTO(OrderPostDTO orderPostDTO) {
         Order created = new Order();
-        ua.tqs21.deliveryengine.models.Service orderOrigin = servicesService.getById(created.getId());
+        ua.tqs21.deliveryengine.models.Service orderOrigin = servicesService.getById(orderPostDTO.getShopId());
 
         if (orderOrigin == null) {
             System.out.println("orderOrigin not found");
@@ -49,6 +49,6 @@ public class OrderService {
 
         created.setOrderStatus(status);
 
-        return created;
+        return orderRepository.save(created);
     }
 }
