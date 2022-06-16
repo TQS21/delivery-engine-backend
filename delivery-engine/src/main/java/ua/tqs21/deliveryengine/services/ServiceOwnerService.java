@@ -31,8 +31,8 @@ public class ServiceOwnerService {
         return soRepository.saveAll(so);
     }
 
-    public ServiceOwner saveAdminFromUser(UserDTO user) {
-        return new ServiceOwner(new User(user.getEmail(), passwordEncoder.encode(user.getPassword()), Roles.SERVICE_OWNER.name()), new HashSet<>());
+    public ServiceOwner saveOwnerFromUser(UserDTO user) {
+        return soRepository.save(new ServiceOwner(new User(user.getEmail(), passwordEncoder.encode(user.getPassword()), Roles.SERVICE_OWNER.name()), new HashSet<>()));
     }
 
     public List<ServiceOwner> getServiceOwners() {
