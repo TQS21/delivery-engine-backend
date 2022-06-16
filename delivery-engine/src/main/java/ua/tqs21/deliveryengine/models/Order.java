@@ -2,7 +2,10 @@ package ua.tqs21.deliveryengine.models;
 
 import java.util.Date;
 
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,6 +16,8 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
+
+import ua.tqs21.deliveryengine.dto.ClientPostDTO;
 
 @Entity
 @Table(name = "orders")
@@ -40,15 +45,26 @@ public class Order {
     @JoinColumn(name="service_id")
     private Service shop;
 
+    @Column(name="shop_order_ref")
+    private int shopOrderRef;
+
+    @Embedded
+    @AttributeOverrides({
+        @AttributeOverride(name = "name", column = @Column(name = "name")),
+        @AttributeOverride(name = "phoneNumber", column = @Column(name = "phoneNumber"))
+    })
+    private ClientPostDTO contact;
 
     public Order() {}
 
-    public Order(OrderStatus status, Date timestamp, Date delivery_timestamp, Rider courier, Service shop) {
+    public Order(OrderStatus status, Date timestamp, Date delivery_timestamp, Rider courier, Service shop, int shopOrderRef, ClientPostDTO client) {
         this.status = status;
         this.timestamp = timestamp;
         this.delivery_timestamp = delivery_timestamp;
         this.courier = courier;
         this.shop = shop;
+        this.shopOrderRef = shopOrderRef;
+        this.contact = client;
     }
 
     public int getId() {
@@ -97,5 +113,21 @@ public class Order {
     
     public void setShop(Service shop) {
         this.shop = shop;
+    }
+
+    public int getShopOrderRef() {
+        return this.shopOrderRef;
+    }
+
+    public void setShopOrderRef(int id) {
+        this.shopOrderRef = id;
+    }
+
+    public ClientPostDTO getContact() {
+        return contact;
+    }
+
+    public void setContact(ClientPostDTO client) {
+        this.contact = client;
     }
 }
