@@ -1,8 +1,11 @@
 package ua.tqs21.deliveryengine.services;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.Date;
 import java.util.Optional;
 
+import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -11,6 +14,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import ua.tqs21.deliveryengine.dto.OrderPostDTO;
 import ua.tqs21.deliveryengine.enums.OrdStatus;
+import ua.tqs21.deliveryengine.models.Address;
 import ua.tqs21.deliveryengine.models.Order;
 import ua.tqs21.deliveryengine.models.OrderStatus;
 import ua.tqs21.deliveryengine.models.Rider;
@@ -30,9 +34,12 @@ public class OrderService {
     private OrderStatusRepository orderStatusRepository;
 
     @Autowired
+    private AddressResolver addressResolver;
+
+    @Autowired
     private RiderService riderService;
 
-    public Order createOrderFromDTO(OrderPostDTO orderPostDTO) {
+    public Order createOrderFromDTO(OrderPostDTO orderPostDTO) throws URISyntaxException, ParseException, IOException {
         Order created = new Order();
         ua.tqs21.deliveryengine.models.Service orderOrigin = servicesService.getById(orderPostDTO.getShopId());
 
@@ -43,7 +50,15 @@ public class OrderService {
         created.setCourier(null);
         created.setShop(orderOrigin);
         created.setTimestamp(new Date());
-        created.setDelivery_timestamp(AddressResolver.estimateDeliverTs(AddressResolver.resolveAddress(orderPostDTO.getAddress()), orderOrigin.getAddress()));
+
+        Optional<Address> from = addressResolver.resolveAddress(orderPostDTO.getAddress());
+
+        if (from.isPresent()) {
+            created.setDelivery_timestamp(addressResolver.estimateDeliverTs(from.get(), orderOrigin.getAddress()));
+        } else {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Could not resolve address");
+        }
+
         created.setShopOrderRef(orderPostDTO.getShopOrderRef());
         created.setContact(orderPostDTO.getClient());
 

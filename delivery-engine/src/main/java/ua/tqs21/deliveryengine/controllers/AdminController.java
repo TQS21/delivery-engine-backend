@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ua.tqs21.deliveryengine.dto.UserDTO;
 import ua.tqs21.deliveryengine.models.Admin;
-import ua.tqs21.deliveryengine.models.User;
 import ua.tqs21.deliveryengine.services.AdminService;
 
 @RestController

@@ -1,5 +1,6 @@
 package ua.deliveryengine.service;
 
+import org.json.simple.parser.ParseException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,11 +21,15 @@ import ua.tqs21.deliveryengine.repositories.ServiceOwnerRepository;
 import ua.tqs21.deliveryengine.repositories.ServiceRepository;
 import ua.tqs21.deliveryengine.repositories.UserRepository;
 import ua.tqs21.deliveryengine.services.ServiceService;
+import ua.tqs21.deliveryengine.utils.AddressResolver;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
 
 @ExtendWith(MockitoExtension.class)
 public class ServiceServiceTests {
@@ -37,6 +42,9 @@ public class ServiceServiceTests {
 
     @Mock(lenient = true)
     private UserRepository userRepository;
+
+    @Mock(lenient = true)
+    private AddressResolver addressResolver;
 
     @Mock(lenient = true)
     private Authentication auth;
@@ -54,7 +62,7 @@ public class ServiceServiceTests {
     private Service service = new Service("test", user, address, deliveries);
 
     @BeforeEach
-    void setup(){
+    void setup() throws URISyntaxException, ParseException, IOException{
         List<Service> services = new ArrayList<>();
         services.add(service);
         //System.out.println(SecurityContextHolder.getContext());
@@ -73,6 +81,9 @@ public class ServiceServiceTests {
         Mockito.when(securityContext.getAuthentication()).thenReturn(auth);
         Mockito.when(auth.getPrincipal()).thenReturn("teste");
         SecurityContextHolder.setContext(securityContext);
+
+        Mockito.when(addressResolver.resolveAddress(any(AddressPostDTO.class))).thenReturn(Optional.of(new Address()));
+        Mockito.when(addressResolver.estimateDeliverTs(any(Address.class), any(Address.class))).thenReturn(new Date());
 
     }
 
@@ -100,7 +111,7 @@ public class ServiceServiceTests {
 
     @Test
     @WithMockUser
-    void whenCreateServiceFromDTOService_returnsServiceObject(){
+    void whenCreateServiceFromDTOService_returnsServiceObject() throws URISyntaxException, ParseException, IOException{
         AddressPostDTO addressDTO = new AddressPostDTO();
         ServicePostDTO servicePostDTO = new ServicePostDTO("update", addressDTO);
         serviceService.createServiceFromDTO(servicePostDTO);

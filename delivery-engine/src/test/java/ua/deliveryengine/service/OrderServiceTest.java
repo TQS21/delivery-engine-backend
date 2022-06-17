@@ -5,16 +5,19 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.Date;
+import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.json.simple.parser.ParseException;
 import org.junit.jupiter.api.BeforeEach;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 
 import ua.tqs21.deliveryengine.dto.AddressPostDTO;
@@ -40,7 +43,7 @@ public class OrderServiceTest {
     @Mock
     private ServiceService serviceService;
 
-    @Mock
+    @Mock(lenient = true)
     private AddressResolver  addressResolver;
 
     @Mock
@@ -52,7 +55,7 @@ public class OrderServiceTest {
     private OrderPostDTO postDTO1 = new OrderPostDTO(1, 34, new ClientPostDTO("teste", "teste"), new AddressPostDTO("Portugal", "340", "x"));
 
     @BeforeEach
-    void setup() {
+    void setup() throws URISyntaxException, ParseException, IOException {
         Service dummy = new Service();
         dummy.setId(1);
         Mockito.when(serviceService.getById(anyInt())).thenReturn(dummy);
@@ -60,11 +63,12 @@ public class OrderServiceTest {
         Service origin = new Service("a", null, null, null);
         origin.setId(1);
         Mockito.when(this.orderRepository.save(any(Order.class))).thenReturn(new Order(null, null, null, null, origin, 34, new ClientPostDTO("teste", "teste")));
-        //Mockito.when(AddressResolver.estimateDeliverTs(any(Address.class), any(Address.class))).thenReturn(new Date());
+        Mockito.when(addressResolver.resolveAddress(any(AddressPostDTO.class))).thenReturn(Optional.of(new Address()));
+        Mockito.when(addressResolver.estimateDeliverTs(any(Address.class), any(Address.class))).thenReturn(new Date());
     }
 
     @Test
-    void whenPostDto_createOrder() {
+    void whenPostDto_createOrder() throws URISyntaxException, ParseException, IOException {
         Order test = this.orderService.createOrderFromDTO(postDTO1);
 
         assertEquals(postDTO1.getShopId(), test.getShop().getId());

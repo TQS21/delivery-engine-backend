@@ -1,5 +1,6 @@
 package ua.tqs21.deliveryengine.enums;
 
+
 public enum OrdStatus {
     QUEUED("QUEUED"), COLLECTING("COLLECTING"), DELIVERING("DELIVERING"), DELIVERED("DELIVERED"), CANCELLED("CANCELLED");
 

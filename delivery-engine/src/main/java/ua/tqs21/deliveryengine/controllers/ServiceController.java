@@ -1,7 +1,10 @@
 package ua.tqs21.deliveryengine.controllers;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.List;
 
+import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,7 +25,7 @@ public class ServiceController {
     private ServiceService serviceService;
 
     @PostMapping("/")
-    public Service postService(@RequestBody ServicePostDTO service) {
+    public Service postService(@RequestBody ServicePostDTO service) throws URISyntaxException, ParseException, IOException {
         return serviceService.createServiceFromDTO(service);
     }
 
