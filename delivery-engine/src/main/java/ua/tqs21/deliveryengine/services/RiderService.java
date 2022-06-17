@@ -2,6 +2,7 @@ package ua.tqs21.deliveryengine.services;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -74,5 +75,15 @@ public class RiderService {
         updated.setPassword(u.getPassword());
         existingRider.setUser(updated);
         return riderRepository.save(existingRider);
+    }
+
+    public Optional<Rider> getByEmail(String email) {
+        User u = userRepository.findByEmail(email);
+        
+        if (u == null) {
+            return Optional.ofNullable(null);
+        }
+
+        return riderRepository.findById(u.getId());
     }
 }
