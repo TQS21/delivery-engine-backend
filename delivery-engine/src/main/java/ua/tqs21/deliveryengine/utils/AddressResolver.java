@@ -53,4 +53,21 @@ public class AddressResolver {
     public Date estimateDeliverTs(Address from, Address to) {
         return new Date();
     }
+
+    public double distance(Address from, Address to) {
+        final int R = 6371; // Radius of the earth
+
+        double latDistance = Math.toRadians(to.getLatitude() - from.getLatitude());
+        double lonDistance = Math.toRadians(to.getLongitude() - from.getLongitude());
+        double a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2)
+                + Math.cos(Math.toRadians(from.getLatitude())) * Math.cos(Math.toRadians(to.getLatitude()))
+                * Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        double distance = R * c * 1000; // convert to meters
+
+    
+        distance = Math.pow(distance, 2);
+    
+        return Math.sqrt(distance) / 1000;
+    }
 }
