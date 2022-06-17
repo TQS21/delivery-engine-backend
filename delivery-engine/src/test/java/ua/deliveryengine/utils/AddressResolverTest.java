@@ -31,7 +31,7 @@ public class AddressResolverTest {
     @Mock(lenient = true)
     private BasicHttpClient httpClient;
 
-    @Mock
+    @Mock(lenient = true)
     private Environment environment;
 
     @InjectMocks
@@ -62,5 +62,13 @@ public class AddressResolverTest {
         Optional<Address> response = this.addressResolver.resolveAddress(req);
 
         assertFalse(response.isPresent());
+    }
+
+    @Test
+    void testDistance() {
+        Address from = new Address(10, 20);
+        Address to = new Address(-10, 110);
+
+        assertEquals(10200, this.addressResolver.distance(from, to), 10);
     }
 }
