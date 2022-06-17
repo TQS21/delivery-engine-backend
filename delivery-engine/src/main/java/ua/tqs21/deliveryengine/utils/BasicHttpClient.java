@@ -14,18 +14,13 @@ import java.io.IOException;
 public class BasicHttpClient {
 
     public String doHttpGet(String url) throws IOException {
-        CloseableHttpClient client = HttpClients.createDefault();
-        HttpGet request = new HttpGet(url);
-        CloseableHttpResponse response = client.execute(request);
-        try {
-            HttpEntity entity = response.getEntity();
-            return EntityUtils.toString(entity);
-        } finally {
-            if (response != null)
-                response.close();
 
-            client.close(); 
-        }
+        try (CloseableHttpClient client = HttpClients.createDefault()) {
+            HttpGet request = new HttpGet(url);
+            try (CloseableHttpResponse response = client.execute(request)) {
+                HttpEntity entity = response.getEntity();
+                return EntityUtils.toString(entity);
+            }
+        } 
     }
-
 }
