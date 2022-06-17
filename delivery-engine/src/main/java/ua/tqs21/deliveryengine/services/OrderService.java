@@ -14,6 +14,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import ua.tqs21.deliveryengine.dto.OrderPostDTO;
 import ua.tqs21.deliveryengine.enums.OrdStatus;
+import ua.tqs21.deliveryengine.models.Address;
 import ua.tqs21.deliveryengine.models.Order;
 import ua.tqs21.deliveryengine.models.OrderStatus;
 import ua.tqs21.deliveryengine.models.Rider;
@@ -49,7 +50,15 @@ public class OrderService {
         created.setCourier(null);
         created.setShop(orderOrigin);
         created.setTimestamp(new Date());
-        created.setDelivery_timestamp(addressResolver.estimateDeliverTs(addressResolver.resolveAddress(orderPostDTO.getAddress()).get(), orderOrigin.getAddress()));
+
+        Optional<Address> from = addressResolver.resolveAddress(orderPostDTO.getAddress());
+
+        if (from.isPresent()) {
+            created.setDelivery_timestamp(addressResolver.estimateDeliverTs(from.get(), orderOrigin.getAddress()));
+        } else {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Could not resolve address");
+        }
+
         created.setShopOrderRef(orderPostDTO.getShopOrderRef());
         created.setContact(orderPostDTO.getClient());
 

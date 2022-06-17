@@ -23,6 +23,8 @@ public class BasicHttpClient {
         } finally {
             if (response != null)
                 response.close();
+
+            client.close(); 
         }
     }
 

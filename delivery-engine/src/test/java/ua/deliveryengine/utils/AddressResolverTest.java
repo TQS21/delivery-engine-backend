@@ -13,9 +13,13 @@ import org.json.simple.parser.ParseException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import ua.tqs21.deliveryengine.dto.AddressPostDTO;
 import ua.tqs21.deliveryengine.models.Address;
@@ -27,6 +31,9 @@ public class AddressResolverTest {
     @Mock(lenient = true)
     private BasicHttpClient httpClient;
 
+    @Mock
+    private Environment environment;
+
     @InjectMocks
     private AddressResolver addressResolver;
 
@@ -36,6 +43,7 @@ public class AddressResolverTest {
         when(httpClient.doHttpGet("http://api.positionstack.com/v1/forward?access_key=87da8451a602310023f5f71677ff37f2&query=1600+Pennsylvania+Ave+NW%2C+Washington+DC+USA")).thenReturn(resp);
 
         when(httpClient.doHttpGet("http://api.positionstack.com/v1/forward?access_key=87da8451a602310023f5f71677ff37f2&query=aaaaaaaaaa+bbbbbbbbb")).thenReturn("[]");
+        when(this.environment.getProperty("geocoding.key")).thenReturn("87da8451a602310023f5f71677ff37f2");
     }
 
     @Test

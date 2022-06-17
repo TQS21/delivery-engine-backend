@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.Optional;
 
 import org.apache.http.client.utils.URIBuilder;
+import org.springframework.core.env.Environment;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -19,16 +20,17 @@ import ua.tqs21.deliveryengine.models.Address;
 @Component
 public class AddressResolver {
     private final String baseUri = "http://api.positionstack.com/v1/forward";
-    private final String apiKey = "87da8451a602310023f5f71677ff37f2";
 
+    @Autowired
+    private Environment environment;
 
     @Autowired
     private BasicHttpClient httpClient;
 
     public Optional<Address> resolveAddress(AddressPostDTO postAddress) throws URISyntaxException, ParseException, IOException {
-
+        String apiKey = environment.getProperty("geocoding.key");
         URIBuilder uriBuilder = new URIBuilder(this.baseUri);
-        uriBuilder.addParameter("access_key", this.apiKey);
+        uriBuilder.addParameter("access_key", apiKey);
         uriBuilder.addParameter("query", String.format("%s %s %s", postAddress.getZipCode(), postAddress.getAddress(), postAddress.getCountry()));
 
         String apiResponse = this.httpClient.doHttpGet(uriBuilder.build().toString());
