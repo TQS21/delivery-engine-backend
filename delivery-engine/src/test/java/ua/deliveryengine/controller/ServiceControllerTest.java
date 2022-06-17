@@ -1,6 +1,8 @@
 package ua.deliveryengine.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import org.json.simple.parser.ParseException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,6 +24,8 @@ import ua.tqs21.deliveryengine.repositories.ServiceOwnerRepository;
 import ua.tqs21.deliveryengine.repositories.ServiceRepository;
 import ua.tqs21.deliveryengine.services.ServiceService;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.HashSet;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -64,7 +68,7 @@ public class ServiceControllerTest {
     private Service fromDto = new Service("fromdto", null, null, null);
 
     @BeforeEach
-    void setUp(){
+    void setUp() throws URISyntaxException, ParseException, IOException{
         serviceOwnerRepository.saveAndFlush(serviceOwner1);
         serviceOwnerRepository.saveAndFlush(serviceOwner2);
         serviceRepository.saveAndFlush(service1);

@@ -1,15 +1,19 @@
 package ua.tqs21.deliveryengine.services;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
+import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.server.ResponseStatusException;
 
 import ua.tqs21.deliveryengine.dto.ServicePostDTO;
+import ua.tqs21.deliveryengine.models.Address;
 import ua.tqs21.deliveryengine.models.Service;
 import ua.tqs21.deliveryengine.models.ServiceOwner;
 import ua.tqs21.deliveryengine.models.User;
@@ -29,11 +33,14 @@ public class ServiceService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private AddressResolver addressResolver;
+
     public Service createService(Service service) {
         return serviceRepository.save(service);
     }
 
-    public Service createServiceFromDTO(ServicePostDTO servicePostDTO) {
+    public Service createServiceFromDTO(ServicePostDTO servicePostDTO) throws URISyntaxException, ParseException, IOException {
         Service created = new Service();
         String ownerEmail = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User owner = userRepository.findByEmail(ownerEmail);
@@ -45,7 +52,14 @@ public class ServiceService {
                 created.setUser(so.get());
                 created.setName(servicePostDTO.getName());
                 created.setDeliveries(new HashSet<>());
-                created.setAddress(AddressResolver.resolveAddress(servicePostDTO.getAddress()));
+
+                Optional<Address> address = addressResolver.resolveAddress(servicePostDTO.getAddress());
+
+                if (address.isPresent()) {
+                    created.setAddress(address.get());
+                } else {
+                    throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Address could not be resolved.");
+                }
                 return serviceRepository.save(created);
             }
         }

@@ -1,8 +1,11 @@
 package ua.tqs21.deliveryengine.controllers;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.List;
 
 import org.hibernate.cfg.NotYetImplementedException;
+import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import ua.tqs21.deliveryengine.dto.OrderPostDTO;
-import ua.tqs21.deliveryengine.enums.OrdStatus;
 import ua.tqs21.deliveryengine.models.Order;
 import ua.tqs21.deliveryengine.services.OrderService;
 
@@ -24,7 +26,7 @@ public class OrderController {
     private OrderService orderService;
 
     @PostMapping("/")
-    public Order postOrderFromDto(@RequestBody OrderPostDTO order) {
+    public Order postOrderFromDto(@RequestBody OrderPostDTO order) throws URISyntaxException, ParseException, IOException {
         return orderService.createOrderFromDTO(order);
     }
 

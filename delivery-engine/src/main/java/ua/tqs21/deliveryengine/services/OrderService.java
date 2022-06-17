@@ -1,8 +1,11 @@
 package ua.tqs21.deliveryengine.services;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.Date;
 import java.util.Optional;
 
+import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -30,9 +33,12 @@ public class OrderService {
     private OrderStatusRepository orderStatusRepository;
 
     @Autowired
+    private AddressResolver addressResolver;
+
+    @Autowired
     private RiderService riderService;
 
-    public Order createOrderFromDTO(OrderPostDTO orderPostDTO) {
+    public Order createOrderFromDTO(OrderPostDTO orderPostDTO) throws URISyntaxException, ParseException, IOException {
         Order created = new Order();
         ua.tqs21.deliveryengine.models.Service orderOrigin = servicesService.getById(orderPostDTO.getShopId());
 
@@ -43,7 +49,7 @@ public class OrderService {
         created.setCourier(null);
         created.setShop(orderOrigin);
         created.setTimestamp(new Date());
-        created.setDelivery_timestamp(AddressResolver.estimateDeliverTs(AddressResolver.resolveAddress(orderPostDTO.getAddress()), orderOrigin.getAddress()));
+        created.setDelivery_timestamp(addressResolver.estimateDeliverTs(addressResolver.resolveAddress(orderPostDTO.getAddress()).get(), orderOrigin.getAddress()));
         created.setShopOrderRef(orderPostDTO.getShopOrderRef());
         created.setContact(orderPostDTO.getClient());
 
