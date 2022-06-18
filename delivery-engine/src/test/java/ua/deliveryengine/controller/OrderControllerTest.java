@@ -9,6 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
@@ -19,12 +20,8 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Date;
-
-import javax.print.attribute.standard.Media;
 
 import ua.tqs21.deliveryengine.controllers.OrderController;
 import ua.tqs21.deliveryengine.dto.AddressPostDTO;
@@ -39,6 +36,7 @@ import ua.tqs21.deliveryengine.services.OrderService;
 @SpringBootTest(classes = OrderController.class)
 @AutoConfigureMockMvc(addFilters = false)
 @EnableWebMvc
+@ActiveProfiles("test")
 public class OrderControllerTest {
     @Autowired
     private MockMvc mvc;
