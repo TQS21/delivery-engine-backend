@@ -61,13 +61,13 @@ public class RiderService {
         User u = userRepository.findByEmail(rider.getEmail());
 
         if (u == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
         }
 
         Rider existingRider = riderRepository.findById(u.getId()).orElse(null);
 
         if (existingRider == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Rider not found");
         }
 
         User updated = new User();

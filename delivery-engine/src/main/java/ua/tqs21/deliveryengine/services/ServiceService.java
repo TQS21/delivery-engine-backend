@@ -86,6 +86,6 @@ public class ServiceService {
             return found;
         }
 
-        throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Shop not found.");
     }
 }
