@@ -54,7 +54,7 @@ public class ServiceOwnerService {
         ServiceOwner existingServiceOwner = soRepository.findById((int)so.getId()).orElse(null);
 
         if (existingServiceOwner == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Service owner not found.");
         }
 
         existingServiceOwner.setUser(so.getUser());

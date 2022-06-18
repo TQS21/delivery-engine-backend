@@ -33,7 +33,7 @@ public class UserService {
         User u = userRepository.findById((int)id).orElse(null);
 
         if (u == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found.");
         }
 
         return u;
@@ -43,7 +43,7 @@ public class UserService {
         User u = userRepository.findByEmail(email);
 
         if (u == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found.");
         }
 
         return u;
@@ -59,7 +59,7 @@ public class UserService {
         User existingUser = userRepository.findByEmail(user.getEmail());
 
         if (existingUser == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
         }
 
         existingUser.setEmail(user.getEmail());
