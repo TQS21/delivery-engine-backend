@@ -65,16 +65,19 @@ public class OrderServiceTest {
         Mockito.when(this.orderStatusRepository.findByName(anyString())).thenReturn(new OrderStatus("QUEUED"));
         Service origin = new Service("a", null, null, null);
         origin.setId(1);
-        Mockito.when(this.orderRepository.save(any(Order.class))).thenReturn(new Order(null, null, null, null, origin, 34, new ClientOrderInfo("teste", "teste", null, null)));
+        Mockito.when(this.orderRepository.save(any(Order.class))).thenReturn(new Order(null, null, null, null, origin, 34, new ClientOrderInfo("teste", "teste", null, null), null));
         Mockito.when(addressResolver.resolveAddress(any(AddressPostDTO.class))).thenReturn(Optional.of(new Address()));
         Mockito.when(addressResolver.estimateDeliverTs(any(Address.class), any(Address.class))).thenReturn(new Date());
 
         Order o1 = new Order();
         o1.setContact(new ClientOrderInfo("teste", "teste", "teste", "teste"));
+        o1.setAddress(new Address());
         Order o2 = new Order();
         o2.setContact(new ClientOrderInfo("teste", "teste", "teste", "teste"));
+        o2.setAddress(new Address());
         Order o3 = new Order();
         o3.setContact(new ClientOrderInfo("teste", "teste", "teste", "teste"));
+        o3.setAddress(new Address());
 
         List<Order> orders = new ArrayList<>();
         orders.add(o1); orders.add(o2); orders.add(o3);

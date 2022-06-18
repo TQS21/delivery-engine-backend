@@ -107,7 +107,7 @@ class DataSchemaTest {
         Set<Order> orders = new HashSet<>();
         Rider rider = new Rider(r, orders);
 
-        Order o1 = new Order(new OrderStatus(), new Date(), new Date(), rider, new Service(), 1, null);
+        Order o1 = new Order(new OrderStatus(), new Date(), new Date(), rider, new Service(), 1, null, null);
         Order o2 = new Order();
 
         orders.add(o1); orders.add(o2);

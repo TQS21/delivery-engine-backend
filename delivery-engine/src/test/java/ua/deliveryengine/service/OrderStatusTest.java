@@ -69,15 +69,15 @@ public class OrderStatusTest {
         Mockito.when(orderStatusRepository.findByName("CANCELLED")).thenReturn(new OrderStatus("CANCELLED"));
         Mockito.when(orderStatusRepository.findByName("invalid")).thenReturn(null);
 
-        queuedOrder = new Order(new OrderStatus("QUEUED"), null, null, null, null, 3, null);
+        queuedOrder = new Order(new OrderStatus("QUEUED"), null, null, null, null, 3, null, null);
         queuedOrder.setId(1);
-        collectingOrder = new Order(new OrderStatus("COLLECTING"), null, null, null, null, 3, null);
+        collectingOrder = new Order(new OrderStatus("COLLECTING"), null, null, null, null, 3, null, null);
         collectingOrder.setId(2);
-        deliveringOrder = new Order(new OrderStatus("DELIVERING"), null, null, null, null, 3, null);
+        deliveringOrder = new Order(new OrderStatus("DELIVERING"), null, null, null, null, 3, null, null);
         deliveringOrder.setId(3);
-        deliveredOrder = new Order(new OrderStatus("DELIVERED"), null, null, null, null, 3, null);
+        deliveredOrder = new Order(new OrderStatus("DELIVERED"), null, null, null, null, 3, null, null);
         deliveredOrder.setId(4);
-        cancelledOrder = new Order(new OrderStatus("CANCELLED"), null, null, null, null, 3, null);
+        cancelledOrder = new Order(new OrderStatus("CANCELLED"), null, null, null, null, 3, null, null);
         cancelledOrder.setId(5);
 
         Mockito.when(orderRepository.findById(1)).thenReturn(Optional.of(queuedOrder));

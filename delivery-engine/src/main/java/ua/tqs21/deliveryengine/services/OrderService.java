@@ -63,6 +63,7 @@ public class OrderService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Could not resolve address");
         }
 
+        created.setAddress(from.get());
         created.setShopOrderRef(orderPostDTO.getShopOrderRef());
         created.setContact( new ClientOrderInfo(orderPostDTO.getClient().getName(), orderPostDTO.getClient().getPhoneNumber(), orderPostDTO.getAddress().getAddress(), orderPostDTO.getAddress().getZipCode()));
 
@@ -90,16 +91,9 @@ public class OrderService {
 
         List<Order> nearbyOrders = new ArrayList<>();
         for (Order o: activeOrders) {
-            String zipCode = o.getContact().getZipCode();
-            String address = o.getContact().getAddress();
-
-            Optional<Address> foundOrderAddr = this.addressResolver.resolveAddress(new AddressPostDTO(null, zipCode, address));
-            if (foundOrderAddr.isPresent()) {
-                double distanceKm = this.addressResolver.distance(from, foundOrderAddr.get());
-
-                if (distanceKm <= 30) {
-                    nearbyOrders.add(o);
-                }
+            double distanceKm = this.addressResolver.distance(from, o.getAddress());
+            if (distanceKm <= 30) {
+                nearbyOrders.add(o);
             }
         }
 
