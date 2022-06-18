@@ -28,4 +28,4 @@ jobs:
         run: cd delivery-engine && mvn clean package
       # Runs a single command using the runners shell
       - name: Deploy to Production environment
-        run: docker-compose down -v && docker-compose build && docker-compose up -d
+        run: sh deploy.sh -p
