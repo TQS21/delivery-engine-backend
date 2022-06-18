@@ -25,7 +25,6 @@ services:
       - SPRING_DATASOURCE_PASSWORD=engine
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
       - SPRING_SECURITY_BASIC_ENABLED=false
-      - SERVER_ERROR_INCLUDE-MESSAGE=always
     ports:
       - 8080:8080
     restart: on-failure
