@@ -17,8 +17,6 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
 
-import ua.tqs21.deliveryengine.dto.ClientPostDTO;
-
 @Entity
 @Table(name = "orders")
 public class Order {
@@ -51,13 +49,15 @@ public class Order {
     @Embedded
     @AttributeOverrides({
         @AttributeOverride(name = "name", column = @Column(name = "name")),
-        @AttributeOverride(name = "phoneNumber", column = @Column(name = "phoneNumber"))
+        @AttributeOverride(name = "phoneNumber", column = @Column(name = "phoneNumber")),
+        @AttributeOverride(name = "street", column = @Column(name = "street")),
+        @AttributeOverride(name = "zipCode", column = @Column(name = "zipCode"))
     })
-    private ClientPostDTO contact;
+    private ClientOrderInfo contact;
 
     public Order() {}
 
-    public Order(OrderStatus status, Date timestamp, Date delivery_timestamp, Rider courier, Service shop, int shopOrderRef, ClientPostDTO client) {
+    public Order(OrderStatus status, Date timestamp, Date delivery_timestamp, Rider courier, Service shop, int shopOrderRef, ClientOrderInfo client) {
         this.status = status;
         this.timestamp = timestamp;
         this.delivery_timestamp = delivery_timestamp;
@@ -123,11 +123,11 @@ public class Order {
         this.shopOrderRef = id;
     }
 
-    public ClientPostDTO getContact() {
+    public ClientOrderInfo getContact() {
         return contact;
     }
 
-    public void setContact(ClientPostDTO client) {
+    public void setContact(ClientOrderInfo client) {
         this.contact = client;
     }
 }

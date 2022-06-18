@@ -2,7 +2,9 @@ package ua.tqs21.deliveryengine.services;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 import org.json.simple.parser.ParseException;
@@ -12,9 +14,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import ua.tqs21.deliveryengine.dto.AddressPostDTO;
 import ua.tqs21.deliveryengine.dto.OrderPostDTO;
 import ua.tqs21.deliveryengine.enums.OrdStatus;
 import ua.tqs21.deliveryengine.models.Address;
+import ua.tqs21.deliveryengine.models.ClientOrderInfo;
 import ua.tqs21.deliveryengine.models.Order;
 import ua.tqs21.deliveryengine.models.OrderStatus;
 import ua.tqs21.deliveryengine.models.Rider;
@@ -60,7 +64,7 @@ public class OrderService {
         }
 
         created.setShopOrderRef(orderPostDTO.getShopOrderRef());
-        created.setContact(orderPostDTO.getClient());
+        created.setContact( new ClientOrderInfo(orderPostDTO.getClient().getName(), orderPostDTO.getClient().getPhoneNumber(), orderPostDTO.getAddress().getAddress(), orderPostDTO.getAddress().getZipCode()));
 
         OrderStatus status = orderStatusRepository.findByName(OrdStatus.QUEUED.name());
 
@@ -71,6 +75,35 @@ public class OrderService {
         created.setOrderStatus(status);
 
         return orderRepository.save(created);
+    }
+
+    public List<Order> getAllOrders() {
+        return this.orderRepository.findAll();
+    }
+
+    public List<Order> getActiveOrders() {
+        return this.orderRepository.findAllByStatusName(OrdStatus.QUEUED.name());
+    }
+
+    public List<Order> getNearbyOrders(Address from) throws Exception {
+        List<Order> activeOrders = this.getActiveOrders();
+
+        List<Order> nearbyOrders = new ArrayList<>();
+        for (Order o: activeOrders) {
+            String zipCode = o.getContact().getZipCode();
+            String address = o.getContact().getAddress();
+
+            Optional<Address> foundOrderAddr = this.addressResolver.resolveAddress(new AddressPostDTO(null, zipCode, address));
+            if (foundOrderAddr.isPresent()) {
+                double distanceKm = this.addressResolver.distance(from, foundOrderAddr.get());
+
+                if (distanceKm <= 30) {
+                    nearbyOrders.add(o);
+                }
+            }
+        }
+
+        return nearbyOrders;
     }
 
     public Order accept(int orderid) {
