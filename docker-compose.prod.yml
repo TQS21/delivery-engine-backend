@@ -1,14 +1,11 @@
 services:
   db:
     image: postgres:14.1-alpine
-    env_file: ./.env
     environment:
-      - PGUSER=$POSTGRES_USER
-      - POSTGRES_DB=$POSTGRES_DB
-      - POSTGRES_USER=$POSTGRES_USER
-      - POSTGRES_PASSWORD=$POSTGRES_PASSWORD
-    ports:
-      - $POSTGRES_PORT:5432
+      - PGUSER=delivery
+      - POSTGRES_DB=delivery
+      - POSTGRES_USER=delivery
+      - POSTGRES_PASSWORD=engine
     volumes:
       - ./db:/docker-entrypoint-initdb.d
     healthcheck:
@@ -22,13 +19,12 @@ services:
       db:
         condition: service_healthy
     build: ./delivery-engine
-    env_file: ./.env
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/$POSTGRES_DB
-      - SPRING_DATASOURCE_USERNAME=$POSTGRES_USER
-      - SPRING_DATASOURCE_PASSWORD=$POSTGRES_PASSWORD
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/delivery
+      - SPRING_DATASOURCE_USERNAME=delivery
+      - SPRING_DATASOURCE_PASSWORD=engine
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
       - SPRING_SECURITY_BASIC_ENABLED=false
     ports:
-      - $SPRING_PORT:8080
+      - 8080:8080
     restart: on-failure

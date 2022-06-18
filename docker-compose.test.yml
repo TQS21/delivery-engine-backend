@@ -1,0 +1,30 @@
+services:
+  db:
+    image: postgres:14.1-alpine
+    environment:
+      - PGUSER=delivery
+      - POSTGRES_DB=delivery
+      - POSTGRES_USER=delivery
+      - POSTGRES_PASSWORD=engine
+    volumes:
+      - ./db:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 1s
+      timeout: 3s
+      retries: 30
+
+  api:
+    depends_on:
+      db:
+        condition: service_healthy
+    build: ./delivery-engine
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/delivery
+      - SPRING_DATASOURCE_USERNAME=delivery
+      - SPRING_DATASOURCE_PASSWORD=engine
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      - SPRING_SECURITY_BASIC_ENABLED=false
+    ports:
+      - 9091:8080
+    restart: on-failure
