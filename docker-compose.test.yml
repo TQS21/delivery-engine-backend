@@ -1,7 +1,6 @@
 services:
   db:
     image: postgres:14.1-alpine
-    env_file: ./.env
     environment:
       - PGUSER=delivery
       - POSTGRES_DB=delivery
@@ -20,7 +19,6 @@ services:
       db:
         condition: service_healthy
     build: ./delivery-engine
-    env_file: ./.env
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/delivery
       - SPRING_DATASOURCE_USERNAME=delivery
