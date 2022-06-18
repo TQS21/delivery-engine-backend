@@ -49,7 +49,7 @@ public class OrderService {
 
         if (orderOrigin == null) {
             System.out.println("orderOrigin not found");
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "shop id not associated with any service. Register the Service first.");
         }
         created.setCourier(null);
         created.setShop(orderOrigin);
