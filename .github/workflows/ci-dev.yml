@@ -17,4 +17,4 @@ jobs:
         run: cd delivery-engine && mvn clean package
       # Runs a set of commands using the runners shell
       - name: Deploy to staging environment
-        run: sh prod.sh -d
+        run: sh deploy.sh -d
