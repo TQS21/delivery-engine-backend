@@ -55,9 +55,16 @@ public class Order {
     })
     private ClientOrderInfo contact;
 
+    @Embedded
+    @AttributeOverrides({
+        @AttributeOverride(name = "latitude", column = @Column(name = "lat")),
+        @AttributeOverride(name = "longitude", column = @Column(name = "lon"))
+    })
+    private Address address;
+
     public Order() {}
 
-    public Order(OrderStatus status, Date timestamp, Date delivery_timestamp, Rider courier, Service shop, int shopOrderRef, ClientOrderInfo client) {
+    public Order(OrderStatus status, Date timestamp, Date delivery_timestamp, Rider courier, Service shop, int shopOrderRef, ClientOrderInfo client, Address address) {
         this.status = status;
         this.timestamp = timestamp;
         this.delivery_timestamp = delivery_timestamp;
@@ -65,6 +72,7 @@ public class Order {
         this.shop = shop;
         this.shopOrderRef = shopOrderRef;
         this.contact = client;
+        this.address = address;
     }
 
     public int getId() {
@@ -129,5 +137,13 @@ public class Order {
 
     public void setContact(ClientOrderInfo client) {
         this.contact = client;
+    }
+
+    public Address getAddress() {
+        return this.address;
+    }
+
+    public void setAddress(Address a) {
+        this.address = a;
     }
 }

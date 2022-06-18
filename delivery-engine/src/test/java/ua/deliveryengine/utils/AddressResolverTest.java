@@ -13,13 +13,10 @@ import org.json.simple.parser.ParseException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import ua.tqs21.deliveryengine.dto.AddressPostDTO;
 import ua.tqs21.deliveryengine.models.Address;
@@ -68,7 +65,7 @@ public class AddressResolverTest {
     void testDistance() {
         Address from = new Address(10, 20);
         Address to = new Address(-10, 110);
-
+        
         assertEquals(10200, this.addressResolver.distance(from, to), 10);
     }
 }

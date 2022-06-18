@@ -48,7 +48,7 @@ public class OrderControllerTest {
     private OrderService orderService;
 
     private OrderPostDTO testDto = new OrderPostDTO(1, 1, new ClientPostDTO("TESTE", "TESTE"), new AddressPostDTO());
-    private Order expected = new Order(new OrderStatus("teste"), new Date(), new Date(), null, new Service(), 1, null);
+    private Order expected = new Order(new OrderStatus("teste"), new Date(), new Date(), null, new Service(), 1, null, null);
     @BeforeEach
     void setup() throws Exception {
         System.out.println(asJsonString(expected));
