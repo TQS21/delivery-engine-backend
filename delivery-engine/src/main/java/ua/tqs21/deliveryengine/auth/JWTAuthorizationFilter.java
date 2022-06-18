@@ -17,6 +17,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.web.server.ResponseStatusException;
+import org.springframework.http.HttpStatus;
 
 public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
     public JWTAuthorizationFilter(AuthenticationManager authenticationManager) {
@@ -37,19 +39,24 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
     }
 
     private UsernamePasswordAuthenticationToken getToken(String header) {
-        DecodedJWT token = JWT.require(Algorithm.HMAC512(AuthConsts.SECRET.getBytes()))
-                        .build()
-                        .verify(header.replace(AuthConsts.TOKEN_PREFIX, ""));
+        try {
+            DecodedJWT token = JWT.require(Algorithm.HMAC512(AuthConsts.SECRET.getBytes()))
+                            .build()
+                            .verify(header.replace(AuthConsts.TOKEN_PREFIX, ""));
 
-        String email = token.getSubject();
-        String role = token.getClaim(AuthConsts.JWT_ROLE_CLAIM).as(String.class);
-        ArrayList<SimpleGrantedAuthority> roles = new ArrayList<>();
-        roles.add(new SimpleGrantedAuthority(role));
-
-        if (email != null) {
-            return new UsernamePasswordAuthenticationToken(email, token.getSignature(), roles);
+            String email = token.getSubject();
+            String role = token.getClaim(AuthConsts.JWT_ROLE_CLAIM).as(String.class);
+            ArrayList<SimpleGrantedAuthority> roles = new ArrayList<>();
+            roles.add(new SimpleGrantedAuthority(role));
+    
+            if (email != null) {
+                return new UsernamePasswordAuthenticationToken(email, token.getSignature(), roles);
+            }
+    
+            return null;
+        } catch(Exception e) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid token");
         }
 
-        return null;
     }
 }
