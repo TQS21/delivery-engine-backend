@@ -1,4 +1,4 @@
-package ua.deliveryengine.service;
+package ua.tqs21.deliveryengine.service;
 
 import org.json.simple.parser.ParseException;
 import org.junit.jupiter.api.BeforeEach;

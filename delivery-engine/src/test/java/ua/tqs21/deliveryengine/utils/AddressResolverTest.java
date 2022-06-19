@@ -1,4 +1,4 @@
-package ua.deliveryengine.utils;
+package ua.tqs21.deliveryengine.utils;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;

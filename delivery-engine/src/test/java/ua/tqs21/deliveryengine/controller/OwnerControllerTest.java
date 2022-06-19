@@ -1,4 +1,4 @@
-package ua.deliveryengine.controller;
+package ua.tqs21.deliveryengine.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;
