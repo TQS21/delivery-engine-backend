@@ -89,7 +89,8 @@ public class OrderService {
     public Order getOrderById(int id) {
         Optional<Order> found = this.orderRepository.findById(id);
 
-        if (found.isEmpty()) {
+        if (!(found.isPresent())) {
+            System.out.println("empty order");
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Order not found");
         }
 
