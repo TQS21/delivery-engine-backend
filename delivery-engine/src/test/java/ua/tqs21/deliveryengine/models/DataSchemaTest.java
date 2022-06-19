@@ -11,14 +11,7 @@ import java.util.Set;
 import org.junit.jupiter.api.Test;
 
 import ua.tqs21.deliveryengine.enums.Roles;
-import ua.tqs21.deliveryengine.models.Address;
-import ua.tqs21.deliveryengine.models.Admin;
-import ua.tqs21.deliveryengine.models.Order;
-import ua.tqs21.deliveryengine.models.OrderStatus;
-import ua.tqs21.deliveryengine.models.Rider;
-import ua.tqs21.deliveryengine.models.Service;
-import ua.tqs21.deliveryengine.models.ServiceOwner;
-import ua.tqs21.deliveryengine.models.User;
+
 
 class DataSchemaTest {
     
