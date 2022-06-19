@@ -35,6 +35,11 @@ public class OrderController {
         return orderService.getAllOrders();
     }
 
+    @GetMapping("/{id}")
+    public Order getOrder(@PathVariable int id) {
+        return this.orderService.getOrderById(id);
+    }
+
     @GetMapping("/active")
     public List<Order> getActiveOrders() {
         return this.orderService.getActiveOrders();
