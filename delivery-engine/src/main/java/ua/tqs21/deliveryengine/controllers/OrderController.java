@@ -45,7 +45,7 @@ public class OrderController {
         return this.orderService.getActiveOrders();
     }
 
-    @GetMapping("/nearby")
+    @PostMapping("/nearby")
     public List<Order> getNearbyOrders(@RequestBody Address source) throws Exception {
         return orderService.getNearbyOrders(source);
     }
