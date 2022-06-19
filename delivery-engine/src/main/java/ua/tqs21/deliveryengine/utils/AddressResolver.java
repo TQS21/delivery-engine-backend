@@ -31,7 +31,6 @@ public class AddressResolver {
         String apiKey = environment.getProperty("geocoding.key");
         URIBuilder uriBuilder = new URIBuilder(this.baseUri);
         uriBuilder.addParameter("access_key", apiKey);
-        uriBuilder.addParameter("country", postAddress.getCountry());
         uriBuilder.addParameter("query", this.generateQueryString(postAddress));
 
         String apiResponse = this.httpClient.doHttpGet(uriBuilder.build().toString());
@@ -73,6 +72,6 @@ public class AddressResolver {
     }
 
     public String generateQueryString(AddressPostDTO addressPostDTO) {
-        return String.format("street %s, %s, %s", addressPostDTO.getAddress(), addressPostDTO.getRegion(), addressPostDTO.getZipCode());
+        return String.format("street %s, %s, %s, %s", addressPostDTO.getAddress(), addressPostDTO.getRegion(), addressPostDTO.getZipCode(), addressPostDTO.getCountry());
     }
 }
