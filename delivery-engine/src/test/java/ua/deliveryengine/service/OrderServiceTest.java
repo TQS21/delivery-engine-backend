@@ -55,7 +55,7 @@ public class OrderServiceTest {
     @InjectMocks
     private OrderService orderService;
 
-    private OrderPostDTO postDTO1 = new OrderPostDTO(1, 34, new ClientPostDTO("teste", "teste"), new AddressPostDTO("Portugal", "340", "x"));
+    private OrderPostDTO postDTO1 = new OrderPostDTO(1, 34, new ClientPostDTO("teste", "teste"), new AddressPostDTO("Portugal", "340", "regiao x", "x"));
 
     @BeforeEach
     void setup() throws URISyntaxException, ParseException, IOException {

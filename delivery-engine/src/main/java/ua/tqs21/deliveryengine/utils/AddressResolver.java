@@ -31,7 +31,8 @@ public class AddressResolver {
         String apiKey = environment.getProperty("geocoding.key");
         URIBuilder uriBuilder = new URIBuilder(this.baseUri);
         uriBuilder.addParameter("access_key", apiKey);
-        uriBuilder.addParameter("query", String.format("%s %s %s", postAddress.getZipCode(), postAddress.getAddress(), postAddress.getCountry()));
+        uriBuilder.addParameter("country", postAddress.getCountry());
+        uriBuilder.addParameter("query", this.generateQueryString(postAddress));
 
         String apiResponse = this.httpClient.doHttpGet(uriBuilder.build().toString());
         // get parts from response till reaching the address
@@ -69,5 +70,9 @@ public class AddressResolver {
         distance = Math.pow(distance, 2);
     
         return Math.sqrt(distance) / 1000;
+    }
+
+    public String generateQueryString(AddressPostDTO addressPostDTO) {
+        return String.format("street %s, %s, %s", addressPostDTO.getAddress(), addressPostDTO.getRegion(), addressPostDTO.getZipCode());
     }
 }

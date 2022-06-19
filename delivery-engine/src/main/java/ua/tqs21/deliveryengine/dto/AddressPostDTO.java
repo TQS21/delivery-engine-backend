@@ -5,13 +5,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class AddressPostDTO {
     private String country;
     private String zipCode;
+    private String region;
     private String address;
 
     public AddressPostDTO() {}
 
-    public AddressPostDTO(String country, String zipCode, String address) {
+    public AddressPostDTO(String country, String zipCode, String region, String address) {
         this.country = country;
         this.zipCode = zipCode;
+        this.region = region;
         this.address = address;
     }
 
@@ -38,5 +40,13 @@ public class AddressPostDTO {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getRegion() {
+        return this.region;
+    }
+
+    public void setRegion(String region) {
+        this.region = region;
     }
 }

@@ -98,7 +98,7 @@ public class ServiceControllerTest {
     @Test
     @WithMockUser
     void whenPostService_serviceIsAddedToRepository() throws Exception{
-        ServicePostDTO service3 = new ServicePostDTO("fromdto", new AddressPostDTO("Portugal", "3919", "rua x"));
+        ServicePostDTO service3 = new ServicePostDTO("fromdto", new AddressPostDTO("Portugal", "3919","regio u", "rua x"));
         dtotest.setId(5);
         mvc.perform(post("/shop/5")
                         .content(asJsonString(service3))
