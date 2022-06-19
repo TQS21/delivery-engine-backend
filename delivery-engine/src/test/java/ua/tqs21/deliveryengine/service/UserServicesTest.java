@@ -1,4 +1,4 @@
-package ua.deliveryengine.service;
+package ua.tqs21.deliveryengine.service;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package ua.deliveryengine.service;
+package ua.tqs21.deliveryengine.service;
 
 import static org.junit.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;

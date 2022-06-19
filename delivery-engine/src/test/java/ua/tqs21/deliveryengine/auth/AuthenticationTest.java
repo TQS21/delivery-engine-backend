@@ -1,4 +1,4 @@
-package ua.deliveryengine.auth;
+package ua.tqs21.deliveryengine.auth;
 
 import org.junit.jupiter.api.Test;
 
