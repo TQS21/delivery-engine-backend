@@ -26,6 +26,7 @@ services:
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
       - SPRING_SECURITY_BASIC_ENABLED=false
       - SERVER_ERROR_INCLUDE-MESSAGE=always
+      - SPRINGDOC_SWAGGER-UI_PATH=/docs
     ports:
       - 9090:8080
     restart: on-failure
