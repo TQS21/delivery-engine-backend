@@ -13,14 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import ua.tqs21.deliveryengine.models.Order;
 import ua.tqs21.deliveryengine.models.OrderStatus;
 import ua.tqs21.deliveryengine.models.User;
-import ua.tqs21.deliveryengine.repositories.OrderRepository;
-import ua.tqs21.deliveryengine.repositories.OrderStatusRepository;
-import ua.tqs21.deliveryengine.repositories.UserRepository;
 
 @DataJpaTest
 @AutoConfigureTestDatabase
