@@ -68,7 +68,7 @@ public class OrderControllerTest {
     @WithMockUser
     void whenGetNearbyOrders_returnOrders() throws IllegalStateException, Exception {
         mvc.perform(
-            get("/delivery/nearby")
+            post("/delivery/nearby")
             .contentType(MediaType.APPLICATION_JSON)
             .content(asJsonString(new Address(35, 21)))
         ).andExpect(status().is(200))
