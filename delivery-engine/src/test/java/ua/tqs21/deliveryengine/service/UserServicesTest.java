@@ -1,6 +1,8 @@
 package ua.tqs21.deliveryengine.service;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,6 +17,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.server.ResponseStatusException;
 
+import ua.tqs21.deliveryengine.dto.RiderPostDTO;
 import ua.tqs21.deliveryengine.enums.Roles;
 import ua.tqs21.deliveryengine.models.Admin;
 import ua.tqs21.deliveryengine.models.Rider;
@@ -31,6 +34,7 @@ import ua.tqs21.deliveryengine.services.UserService;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
 
 @ExtendWith(MockitoExtension.class)
 public class UserServicesTest {
@@ -92,6 +96,7 @@ public class UserServicesTest {
         Mockito.when(serviceOwnerRepository.findAll()).thenReturn(serviceOwners);
         Mockito.when(riderRepository.findAll()).thenReturn(riders);
         Mockito.when(passwordEncoder.encode("teste")).thenReturn("hash");
+        Mockito.when(riderRepository.save(any(Rider.class))).thenReturn(new Rider(new User("vasco", "teste", "RIDER"), new HashSet<>()));
     }
 
     @Test
@@ -131,17 +136,15 @@ public class UserServicesTest {
         assertThat(sos).hasSize(1).extracting((s) -> s.getUser().getRole()).containsOnly("SERVICE_OWNER");
     }
 
-    /*
-    TODO: Fix this test
+
     @Test
     void whenCreatingFromDTO_returnRiderObject() {
         RiderPostDTO riderPostDTO = new RiderPostDTO("vasco", "http://teste.com/a.jpg", new Date(), "teste");
-
         Rider entity = this.riderService.saveRiderFromDto(riderPostDTO);
 
         assertThat(entity.getUser().getEmail()).isEqualTo(riderPostDTO.getEmail());
-        assertThat(entity.getUser().getPassword()).isEqualTo("hash");
-        assertThat(entity.getUser().getRole().getRole()).isEqualTo("RIDER");
+        assertThat(entity.getUser().getPassword()).isEqualTo("teste");
+        assertThat(entity.getUser().getRole()).isEqualTo("RIDER");
+        assertThat(entity.getDeliveries()).isEmpty();
     }
-    */
 }

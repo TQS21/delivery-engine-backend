@@ -11,7 +11,6 @@ import java.net.URISyntaxException;
 import java.util.Optional;
 
 import org.json.simple.parser.ParseException;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -21,8 +20,6 @@ import org.springframework.core.env.Environment;
 
 import ua.tqs21.deliveryengine.dto.AddressPostDTO;
 import ua.tqs21.deliveryengine.models.Address;
-import ua.tqs21.deliveryengine.utils.AddressResolver;
-import ua.tqs21.deliveryengine.utils.BasicHttpClient;
 
 @ExtendWith(MockitoExtension.class)
 public class AddressResolverTest {

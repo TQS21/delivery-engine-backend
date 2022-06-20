@@ -1,6 +1,5 @@
 package ua.tqs21.deliveryengine.controller;
 
-import org.json.simple.parser.ParseException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,7 +67,7 @@ public class OrderControllerTest {
     @WithMockUser
     void whenGetNearbyOrders_returnOrders() throws IllegalStateException, Exception {
         mvc.perform(
-            get("/delivery/nearby")
+            post("/delivery/nearby")
             .contentType(MediaType.APPLICATION_JSON)
             .content(asJsonString(new Address(35, 21)))
         ).andExpect(status().is(200))

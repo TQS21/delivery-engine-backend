@@ -14,7 +14,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import ua.tqs21.deliveryengine.dto.AddressPostDTO;
 import ua.tqs21.deliveryengine.dto.OrderPostDTO;
 import ua.tqs21.deliveryengine.enums.OrdStatus;
 import ua.tqs21.deliveryengine.models.Address;
