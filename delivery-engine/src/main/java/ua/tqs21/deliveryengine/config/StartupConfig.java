@@ -10,8 +10,11 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import ua.tqs21.deliveryengine.dto.UserDTO;
+import ua.tqs21.deliveryengine.enums.OrdStatus;
 import ua.tqs21.deliveryengine.models.Address;
+import ua.tqs21.deliveryengine.models.OrderStatus;
 import ua.tqs21.deliveryengine.models.Service;
+import ua.tqs21.deliveryengine.repositories.OrderStatusRepository;
 import ua.tqs21.deliveryengine.services.ServiceOwnerService;
 import ua.tqs21.deliveryengine.services.ServiceService;
 
@@ -26,6 +29,9 @@ public class StartupConfig implements CommandLineRunner {
     @Autowired
     private ServiceService serviceService;
 
+    @Autowired
+    private OrderStatusRepository orderStatusRepository;
+
     @Override
     public
     void run(String ...args) throws Exception {
@@ -33,6 +39,13 @@ public class StartupConfig implements CommandLineRunner {
         if (serviceOwnerService.getServiceOwners().size() == 0) {
             serviceOwnerService.saveOwnerFromUser(new UserDTO("hmlowner@gmail.com", "hmlowner"));
             serviceService.createService(new Service("HML - Howl's Moving Library", this.serviceOwnerService.getServiceOwnerById(1), new Address(6.75, -73.35), new HashSet<>()));
+
+            orderStatusRepository.save(new OrderStatus(OrdStatus.QUEUED.name()));
+            orderStatusRepository.save(new OrderStatus(OrdStatus.COLLECTING.name()));
+            orderStatusRepository.save(new OrderStatus(OrdStatus.DELIVERING.name()));
+            orderStatusRepository.save(new OrderStatus(OrdStatus.DELIVERED.name()));
+            orderStatusRepository.save(new OrderStatus(OrdStatus.CANCELLED.name()));
+            
         }
     }
 }
