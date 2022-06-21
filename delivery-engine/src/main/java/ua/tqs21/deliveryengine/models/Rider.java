@@ -11,6 +11,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "riders")
 public class Rider {
@@ -23,6 +25,7 @@ public class Rider {
     @JoinColumn(name = "users", referencedColumnName = "id")
     private User user;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "courier")
     private Set<Order> deliveries;
 
