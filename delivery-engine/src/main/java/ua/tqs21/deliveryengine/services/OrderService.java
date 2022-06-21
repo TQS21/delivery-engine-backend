@@ -102,6 +102,7 @@ public class OrderService {
         List<Order> nearbyOrders = new ArrayList<>();
         for (Order o: activeOrders) {
             double distanceKm = this.addressResolver.distance(from, o.getAddress());
+
             if (distanceKm <= 30) {
                 nearbyOrders.add(o);
             }
@@ -113,7 +114,7 @@ public class OrderService {
     public Order accept(int orderid) {
         Optional<Order> fromDb = orderRepository.findById(orderid);
 
-        if (fromDb.isEmpty()) {
+        if (!(fromDb.isPresent())) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Order not found");
         }
 
@@ -142,7 +143,7 @@ public class OrderService {
     public Order collect(int orderid) {
         Optional<Order> fromDb = orderRepository.findById(orderid);
 
-        if (fromDb.isEmpty()) {
+        if (!(fromDb.isPresent())) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Order not found");
         }
 
@@ -169,7 +170,7 @@ public class OrderService {
     public Order deliver(int orderid) {
         Optional<Order> fromDb = orderRepository.findById(orderid);
 
-        if (fromDb.isEmpty()) {
+        if (!(fromDb.isPresent())) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Order not found");
         }
 
@@ -197,7 +198,7 @@ public class OrderService {
     public Order cancel(int orderid) {
         Optional<Order> fromDb = orderRepository.findById(orderid);
 
-        if (fromDb.isEmpty()) {
+        if (!(fromDb.isPresent())) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Order not found");
         }
 
